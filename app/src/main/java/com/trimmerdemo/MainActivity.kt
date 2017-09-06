@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import com.cjh.videotrimmerlibrary.VideoTrimmerView
+import com.cjh.videotrimmerlibrary.utils.UriUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -46,12 +48,8 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CHOOSE_VIDEO_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val videoUri = data.data
-            val filePathColumn = arrayOf(MediaStore.Video.Media.DATA)
-            val cursor = getContentResolver().query(videoUri, filePathColumn, null, null, null);
-            cursor.moveToFirst()
-            val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-            val videoPath = cursor.getString(columnIndex)
-            mVideoTrimmerView?.setVideoPath(videoPath) ?: (findViewById(R.id.mVideoTrimmerView) as VideoTrimmerView)?.setVideoPath(videoPath)
+            val videoPath = UriUtils.getPath(this, videoUri)
+            mVideoTrimmerView?.setVideoPath(videoPath!!)?.handle() ?: (findViewById(R.id.mVideoTrimmerView) as VideoTrimmerView)?.setVideoPath(videoPath!!).handle()
         }
     }
 }

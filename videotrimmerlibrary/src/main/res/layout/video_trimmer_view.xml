@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     android:orientation="vertical">
 
     <FrameLayout
@@ -12,20 +13,24 @@
         <VideoView
             android:id="@+id/mVideoView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
 
     </FrameLayout>
 
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/mRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <com.cjh.videotrimmerlibrary.TrimmerSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
 
     </RelativeLayout>
 
