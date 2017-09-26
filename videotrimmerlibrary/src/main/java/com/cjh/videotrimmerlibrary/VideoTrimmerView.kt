@@ -15,7 +15,7 @@ class VideoTrimmerView : FrameLayout {
 
     var mLayoutId = R.layout.video_trimmer_view
 
-    lateinit var recyclerView: RecyclerView
+    var recyclerView: RecyclerView
 
     constructor(context: Context) : this(context, null, 0)
 

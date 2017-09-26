@@ -127,7 +127,7 @@ internal class MediaMetadataRetrieverAgent {
         for (i in 0..mConfigVo.adapterUpdateCount - 1) {
             pos = (realIndex + i) * radixPosition * 1000
             val frame = mRetr.getFrameAtTime(pos, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-            thumbVos.add(ThumbVo(CommonUtils.bitmap2byte(CommonUtils.ratio(frame, mConfigVo.thumbItemWidth.toFloat(), mConfigVo.thumbItemHeight.toFloat())), pos))
+            thumbVos.add(ThumbVo(CommonUtils.bitmap2byte(CommonUtils.ratio(frame, mConfigVo.thumbItemWidth * 1.5f, mConfigVo.thumbItemHeight * 1.5f)), pos))
         }
         return thumbVos
     }

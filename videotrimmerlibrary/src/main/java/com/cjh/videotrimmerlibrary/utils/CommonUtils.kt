@@ -21,7 +21,7 @@ class CommonUtils {
             var newSrc = ByteArrayInputStream(bitmap2byte(image))
             val newOpts = BitmapFactory.Options()
             newOpts.inJustDecodeBounds = true
-            newOpts.inPreferredConfig = Bitmap.Config.RGB_565
+            newOpts.inPreferredConfig = Bitmap.Config.ARGB_8888
             BitmapFactory.decodeStream(newSrc, null, newOpts)
             val w = newOpts.outWidth
             val h = newOpts.outHeight

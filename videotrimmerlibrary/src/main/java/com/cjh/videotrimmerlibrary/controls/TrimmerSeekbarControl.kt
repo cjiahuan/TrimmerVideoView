@@ -24,6 +24,6 @@ class TrimmerSeekBarControl private constructor(trimmerSeekBar: TrimmerSeekBar) 
         }
     }
 
-    
+
 
 }

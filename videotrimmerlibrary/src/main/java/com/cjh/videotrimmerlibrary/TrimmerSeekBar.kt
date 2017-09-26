@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
@@ -52,7 +53,7 @@ class TrimmerSeekBar : View {
 
     private fun initialShadowPaint() {
         shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        shadowPaint?.color = Config.DEFAULT_SHAOW_COLOR
+        shadowPaint?.color = Color.parseColor("#9a000000")
         shadowPaint?.style = Paint.Style.FILL_AND_STROKE
     }
 
@@ -65,22 +66,32 @@ class TrimmerSeekBar : View {
 
     private fun initialCursorPaint() {
         cursorPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        cursorPaint?.color = Config.DEFAULT_TRIMMER_COLRO
+        cursorPaint?.color = Color.parseColor("#ffffff")
         cursorPaint?.style = Paint.Style.FILL_AND_STROKE
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
+        var imeasureWidth = 0
+        var imeasureHeight = 0
+        if (widthMode == MeasureSpec.EXACTLY) {
+            imeasureWidth = widthSize
+        }
+        if (heightMode == MeasureSpec.EXACTLY) {
+            imeasureHeight = heightSize
+        }
+        setMeasuredDimension(imeasureWidth, imeasureHeight)
         if (leftShadowRect == null) {
-            val width = MeasureSpec.getSize(widthMeasureSpec)
-            val height = MeasureSpec.getSize(heightMeasureSpec)
-            rightPosX = width.toFloat()
-            cursorWidth = width / 30
-            leftShadowRect = Rect(0, 0, width, height)
-            rightShadowRect = Rect(0, 0, width, height)
-            trimmerRect = Rect(0, 0, width, height)
-            leftCursorRect = Rect(0, 0, width, height)
-            rightCursorRect = Rect(0, 0, width, height)
+            rightPosX = imeasureWidth.toFloat()
+            cursorWidth = imeasureWidth / 32
+            leftShadowRect = Rect(0, 0, imeasureWidth, imeasureHeight)
+            rightShadowRect = Rect(0, 0, imeasureWidth, imeasureHeight)
+            trimmerRect = Rect(0, 0, imeasureWidth, imeasureHeight)
+            leftCursorRect = Rect(0, 0, imeasureWidth, imeasureHeight)
+            rightCursorRect = Rect(0, 0, imeasureWidth, imeasureHeight)
         }
     }
 
@@ -97,9 +108,10 @@ class TrimmerSeekBar : View {
         if (event == null) {
             return super.onTouchEvent(event)
         }
+        Log.e("11111111111111", event.action.toString())
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> if (!checkMoveAvailableByDownEvent(event)) return super.onTouchEvent(event)
-            MotionEvent.ACTION_MOVE -> if (!isAvailableMove(event)) return super.onTouchEvent(event)
+            MotionEvent.ACTION_DOWN -> if (checkMoveAvailableByDownEvent(event)) return true
+            MotionEvent.ACTION_MOVE -> if (isAvailableMove(event)) return true
             MotionEvent.ACTION_UP -> endAction(event)
             MotionEvent.ACTION_CANCEL -> endAction(event)
         }
@@ -115,7 +127,7 @@ class TrimmerSeekBar : View {
     private fun whichSide() {
         when (actionDownPosX) {
             in (leftPosX - offsetValue)..(leftPosX + cursorWidth + offsetValue) -> side = ActionSideType.LEFT
-            in (rightPosX + offsetValue)..(leftPosX - cursorWidth - offsetValue) -> side = ActionSideType.RIGHT
+            in (rightPosX - cursorWidth - offsetValue)..(rightPosX + offsetValue) -> side = ActionSideType.RIGHT
             else -> side = ""
         }
     }
@@ -141,18 +153,6 @@ class TrimmerSeekBar : View {
         return available
     }
 
-    private fun actionMoveRight(movingX: Float): Boolean {
-        if (movingX == rightPosX) {
-            return false
-        }
-        if (movingX in (leftPosX + perSecondWidth)..width.toFloat()) {
-            rightPosX = movingX
-            postInvalidate()
-            return true
-        }
-        return false
-    }
-
     private fun actionMoveLeft(movingX: Float): Boolean {
         if (movingX == leftPosX) {
             return false
@@ -165,6 +165,17 @@ class TrimmerSeekBar : View {
         return false
     }
 
+    private fun actionMoveRight(movingX: Float): Boolean {
+        if (movingX == rightPosX) {
+            return false
+        }
+        if (movingX in (leftPosX + perSecondWidth)..width.toFloat()) {
+            rightPosX = movingX
+            postInvalidate()
+            return true
+        }
+        return false
+    }
 
     private fun endAction(event: MotionEvent) {
         side = ""
@@ -195,7 +206,6 @@ class TrimmerSeekBar : View {
         trimmerRect!!.right = rightPosX.toInt()
         canvas.drawRect(trimmerRect, trimmerPaint)
     }
-
 
     private fun drawCursor(canvas: Canvas) {
         if ((leftCursorBitmap == null || leftCursorRect == null) && leftCursorRect != null && rightCursorRect != null) {
