@@ -2,21 +2,33 @@ package com.cjh.videotrimmerlibrary.controls
 
 import android.support.v7.widget.RecyclerView
 import android.widget.VideoView
+import com.cjh.videotrimmerlibrary.TrimmerSeekBar
+import com.cjh.videotrimmerlibrary.callback.EndTouchActionListener
+import com.cjh.videotrimmerlibrary.callback.EndScrollActionListener
 
 /**
  * Created by cjh on 2017/8/31.
  */
-class RegulatorControl private constructor() {
+class RegulatorControl private constructor() : EndScrollActionListener, EndTouchActionListener {
+
+    override fun updateRegionIndex() {
+
+    }
+
+    override fun updateByScroll() {
+        
+    }
 
     companion object {
         private var mInstance: RegulatorControl? = null
-        fun getInstance(videoView: VideoView, recyclerView: RecyclerView): RegulatorControl {
+        fun getInstance(videoView: VideoView, recyclerView: RecyclerView, trimmerSeekBar: TrimmerSeekBar): RegulatorControl {
             if (mInstance == null) {
                 synchronized(VideoViewControl::class) {
                     if (mInstance == null) {
-                        VideoViewControl.getInstance(videoView)
-                        RecyclerViewControl.getInstance(recyclerView)
                         mInstance = RegulatorControl()
+                        VideoViewControl.getInstance(videoView)
+                        RecyclerViewControl.getInstance(recyclerView, mInstance!!)
+                        TrimmerSeekBarControl.getInstance(trimmerSeekBar, mInstance!!)
                     }
                 }
             }
@@ -47,11 +59,6 @@ class RegulatorControl private constructor() {
         MediaMetadataRetrieverAgent.getInstance().setAdapterUpdateCount(adapterUpdateCount)
     }
 
-    fun initialVideoViewWH(wh: Array<Int>): RegulatorControl {
-        VideoViewControl.getInstance().resetVideoViewWH(wh)
-        return this
-    }
-
     fun initialThumbItemWH(wh: Array<Int>): RegulatorControl {
         MediaMetadataRetrieverAgent.getInstance().setThumbItemWH(wh)
         return this
@@ -63,9 +70,9 @@ class RegulatorControl private constructor() {
         MediaMetadataRetrieverAgent.getInstance().getFrameThumb(RecyclerViewControl.getInstance())
     }
 
+
     fun release() {
         mInstance = null
         MediaMetadataRetrieverAgent.getInstance().release()
     }
-
 }

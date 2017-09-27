@@ -12,13 +12,13 @@ class CommonUtils {
 
     companion object {
         fun bitmap2byte(bitmap: Bitmap): ByteArray {
-            val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-            return baos.toByteArray()
+            val ba = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ba)
+            return ba.toByteArray()
         }
 
         fun ratio(image: Bitmap, pixelW: Float, pixelH: Float): Bitmap {
-            var newSrc = ByteArrayInputStream(bitmap2byte(image))
+            val newSrc = ByteArrayInputStream(bitmap2byte(image))
             val newOpts = BitmapFactory.Options()
             newOpts.inJustDecodeBounds = true
             newOpts.inPreferredConfig = Bitmap.Config.ARGB_8888

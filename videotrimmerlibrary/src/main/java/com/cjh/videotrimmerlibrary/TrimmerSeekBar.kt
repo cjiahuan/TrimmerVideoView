@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import com.cjh.videotrimmerlibrary.callback.EndTouchActionListener
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
 
 /**
@@ -35,6 +36,10 @@ class TrimmerSeekBar : View {
 
     var leftCursorBitmap: Bitmap? = null
     var rightCursorBitmap: Bitmap? = null
+
+    var imeasureWidth = 0
+
+    var updateThumbBySeekBar: EndTouchActionListener? = null
 
     constructor(context: Context) : this(context, null, 0)
 
@@ -75,7 +80,7 @@ class TrimmerSeekBar : View {
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
         val heightSize = MeasureSpec.getSize(heightMeasureSpec)
-        var imeasureWidth = 0
+
         var imeasureHeight = 0
         if (widthMode == MeasureSpec.EXACTLY) {
             imeasureWidth = widthSize
@@ -181,6 +186,7 @@ class TrimmerSeekBar : View {
         side = ""
         actionDownPosX = -1f
         if (isLeft()) leftPosX = event.x else if (isRight()) rightPosX = event.x else super.onTouchEvent(event)
+        updateThumbBySeekBar?.updateRegionIndex(leftPosX, rightPosX)
     }
 
     //    - - - - - - - - - -- - - - - - - - - - - - - - - - -  draw logic - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -218,4 +224,7 @@ class TrimmerSeekBar : View {
         }
     }
 
+    fun addEndActionListener(listener: EndTouchActionListener) {
+        updateThumbBySeekBar = listener
+    }
 }

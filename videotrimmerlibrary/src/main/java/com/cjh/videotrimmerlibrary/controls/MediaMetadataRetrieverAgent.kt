@@ -1,6 +1,8 @@
 package com.cjh.videotrimmerlibrary.controls
 
 import android.media.MediaMetadataRetriever
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.text.TextUtils
 import com.cjh.videotrimmerlibrary.Config
 import com.cjh.videotrimmerlibrary.callback.GetFrameListener
@@ -56,8 +58,11 @@ internal class MediaMetadataRetrieverAgent {
     }
 
     fun setThumbItemWH(wh: Array<Int>) {
+        if (mConfigVo.thumbItemWidth > 0 && mConfigVo.thumbItemHeight > 0) {
+            return
+        }
         mConfigVo.thumbItemWidth = wh[0] / mConfigVo.showThumbCount
-        mConfigVo.thumbItemHeight = mConfigVo.thumbItemWidth / 3 * 5
+        mConfigVo.thumbItemHeight = wh[1]
     }
 
     fun build() {
@@ -81,7 +86,7 @@ internal class MediaMetadataRetrieverAgent {
         val min = Math.min(width, height)
         val max = Math.max(width, height)
         val orientation = mRetr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
-        if (Config.VERTICAL.equals(orientation)) {
+        if (Config.VERTICAL == orientation) {
             width = min
             height = max
         } else {
@@ -91,40 +96,27 @@ internal class MediaMetadataRetrieverAgent {
         return arrayOf(width, height)
     }
 
-    fun getConfigVo(): ConfigVo {
-        return mConfigVo
-    }
+    fun getConfigVo(): ConfigVo = mConfigVo
 
     fun getFrameThumb(listener: GetFrameListener) {
         val radixPosition = calculateRadixPosition()
-        val totalThumbCount = mConfigVo!!.durationL / radixPosition
-        val shoudDoSpecialLogicAtLastGroup = ((totalThumbCount % mConfigVo!!.adapterUpdateCount) == 0L)
+        val totalThumbCount = mConfigVo.durationL / radixPosition
+        val shoudDoSpecialLogicAtLastGroup = ((totalThumbCount % mConfigVo.adapterUpdateCount) != 0L)
         val groups: ArrayList<Int> = getCountGroups(totalThumbCount, shoudDoSpecialLogicAtLastGroup)
         Flowable.fromIterable(groups)
                 .subscribeOn(Schedulers.io())
-                .flatMap(object : Function<Int, Publisher<ArrayList<ThumbVo>>> {
-                    override fun apply(t: Int): Publisher<ArrayList<ThumbVo>> {
-                        return Flowable.just(getFrameThumbVos(t, radixPosition))
-                    }
-                })
+                .flatMap { t -> Flowable.just(getFrameThumbVos(t, radixPosition)) }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Consumer<ArrayList<ThumbVo>> {
-                    override fun accept(t: ArrayList<ThumbVo>?) {
-                        if (t != null)
-                            listener.update(t!!)
-                    }
-                }, object : Consumer<Throwable> {
-                    override fun accept(t: Throwable?) {
-                        t?.printStackTrace()
-                    }
-                })
+                .subscribe({ t ->
+                    if (t != null) listener.update(t)
+                }, { t -> t?.printStackTrace() })
     }
 
     private fun getFrameThumbVos(t: Int, radixPosition: Long): ArrayList<ThumbVo> {
         val thumbVos = ArrayList<ThumbVo>()
         val realIndex = t * mConfigVo.adapterUpdateCount
-        var pos = 0L
-        for (i in 0..mConfigVo.adapterUpdateCount - 1) {
+        var pos: Long
+        for (i in 0 until mConfigVo.adapterUpdateCount) {
             pos = (realIndex + i) * radixPosition * 1000
             val frame = mRetr.getFrameAtTime(pos, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
             thumbVos.add(ThumbVo(CommonUtils.bitmap2byte(CommonUtils.ratio(frame, mConfigVo.thumbItemWidth * 1.5f, mConfigVo.thumbItemHeight * 1.5f)), pos))
@@ -133,20 +125,20 @@ internal class MediaMetadataRetrieverAgent {
     }
 
     private fun getCountGroups(totalThumbCount: Long, shoudDoSpecialLogicAtLastGroup: Boolean): ArrayList<Int> {
-        var group = (totalThumbCount / mConfigVo!!.adapterUpdateCount).toInt()
+        var group = (totalThumbCount / mConfigVo.adapterUpdateCount).toInt()
         if (shoudDoSpecialLogicAtLastGroup) group++
         val groupArray = ArrayList<Int>()
-        for (i in 0..group - 1) {
+        for (i in 0 until group) {
             groupArray.add(i)
         }
         return groupArray
     }
 
     private fun calculateRadixPosition(): Long {
-        val theoryThumbCount = mConfigVo!!.durationL / 1000
+        val theoryThumbCount = mConfigVo.durationL / 1000
         var radixPosition = 1000L
         if (theoryThumbCount < mConfigVo.showThumbCount) {
-            radixPosition = mConfigVo!!.durationL / mConfigVo.showThumbCount
+            radixPosition = mConfigVo.durationL / mConfigVo.showThumbCount
         }
         return radixPosition
     }

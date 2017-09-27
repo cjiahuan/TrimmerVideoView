@@ -16,9 +16,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val CHOOSE_VIDEO_CODE = 11
+    private val CHOOSE_VIDEO_CODE = 11
 
-    val REQUEST_PERSION_CODE = 12
+    private val REQUEST_PERSION_CODE = 12
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun chooseVideo() {
+    private fun chooseVideo() {
         val intent = Intent()
         intent.type = "video/*"
         intent.action = Intent.ACTION_GET_CONTENT
