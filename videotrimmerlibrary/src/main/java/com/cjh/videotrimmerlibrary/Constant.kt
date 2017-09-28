@@ -10,7 +10,7 @@ class Constant {
     companion object {
         val LOG_TAG = "videotrimmerlibrary"
 
-        val DEFAULT_TRIMMER_TIME = 30 * 1000L
+        val DEFAULT_TRIMMER_TIME = 10 * 1000L
         val DEFAULT_THUMB_SHOW_COUNT = 10
 
         val VERTICAL = "90"

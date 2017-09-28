@@ -1,5 +1,6 @@
 package com.cjh.videotrimmerlibrary.controls
 
+import android.util.Log
 import com.cjh.videotrimmerlibrary.MediaHandleManager
 import com.cjh.videotrimmerlibrary.TrimmerSeekBar
 import com.cjh.videotrimmerlibrary.callback.EndTouchActionListener
@@ -20,9 +21,15 @@ class TrimmerSeekBarControl private constructor(trimmerSeekBar: TrimmerSeekBar, 
     }
 
     private fun posConvertIndex(pos: Float): Float {
+        if (pos <= 0) {
+            return 0f
+        }
+        if (pos >= mTrimmerSeekBar.imeasureWidth) {
+            return MediaHandleManager.getInstance().getConfigVo().showThumbCount.toFloat()
+        }
         val increase = mTrimmerSeekBar.imeasureWidth / MediaHandleManager.getInstance().getConfigVo().showThumbCount
         return (0 until MediaHandleManager.getInstance().getConfigVo().showThumbCount)
-                .firstOrNull { pos < (it + 1) * increase }
+                .firstOrNull { pos <= (it + 1) * increase }
                 ?.toFloat()
                 ?: 0.toFloat()
     }
