@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import com.cjh.videotrimmerlibrary.callback.IConfig
 import com.cjh.videotrimmerlibrary.controls.RegulatorControl
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
 import kotlinx.android.synthetic.main.video_trimmer_view.view.*
@@ -32,24 +33,13 @@ class VideoTrimmerView : FrameLayout {
                 .initialThumbItemWH(arrayOf(MeasureSpec.getSize(widthMeasureSpec) - DensityUtils.dip2px(context, 25f * 2), recyclerView.measuredHeight))
     }
 
-    fun setTrimmerTime(trimmerTime: Long): VideoTrimmerView {
-        RegulatorControl.getInstance().setTrimmerTime(trimmerTime)
-        return this
-    }
-
-    fun setThumbShowCount(thumbShowCount: Int): VideoTrimmerView {
-        RegulatorControl.getInstance().setThumbShowCount(thumbShowCount)
-        return this
-    }
-
-    fun setAdapterUpdateCount(adapterUpdateCount: Int): VideoTrimmerView {
-        RegulatorControl.getInstance().setAdapterUpdateCount(adapterUpdateCount)
-        return this
-    }
-
     fun setVideoPath(videoPath: String): VideoTrimmerView {
         RegulatorControl.getInstance().setVideoPath(videoPath)
         return this
+    }
+
+    fun setIConfig(icg: IConfig) {
+        RegulatorControl.getInstance().setIConfig(icg)
     }
 
     fun handle() {
@@ -59,4 +49,6 @@ class VideoTrimmerView : FrameLayout {
     fun release() {
         RegulatorControl.getInstance().release()
     }
+
+    fun getTrimmerPos(): LongArray = RegulatorControl.getInstance().getTrimmerPos()
 }

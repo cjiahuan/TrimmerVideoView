@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.cjh.videotrimmerlibrary.controls.MediaMetadataRetrieverAgent
 import com.cjh.videotrimmerlibrary.vo.ThumbVo
 
 
@@ -29,8 +28,8 @@ class ThumbAdapter : RecyclerView.Adapter<ThumbAdapter.ThumViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ThumViewHolder {
         val rootView = LayoutInflater.from(parent?.context).inflate(R.layout.thumb_item, parent, false)
-        rootView.findViewById<ImageView>(R.id.mImageView).layoutParams.width = MediaMetadataRetrieverAgent.getInstance().getConfigVo().thumbItemWidth
-        rootView.findViewById<ImageView>(R.id.mImageView).layoutParams.height = MediaMetadataRetrieverAgent.getInstance().getConfigVo().thumbItemHeight
+        rootView.findViewById<ImageView>(R.id.mImageView).layoutParams.width = MediaHandleManager.getInstance().getConfigVo().thumbItemWidth
+        rootView.findViewById<ImageView>(R.id.mImageView).layoutParams.height = MediaHandleManager.getInstance().getConfigVo().thumbItemHeight
         return ThumViewHolder(rootView)
     }
 

@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.view.View
 import com.cjh.videotrimmerlibrary.VideoTrimmerView
 import com.cjh.videotrimmerlibrary.utils.UriUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -49,7 +50,11 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == CHOOSE_VIDEO_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val videoUri = data.data
             val videoPath = UriUtils.getPath(this, videoUri)
-            mVideoTrimmerView?.setVideoPath(videoPath!!)?.handle() ?: (findViewById(R.id.mVideoTrimmerView) as VideoTrimmerView)?.setVideoPath(videoPath!!).handle()
+            mVideoTrimmerView?.setVideoPath(videoPath!!)?.handle() ?: (findViewById<VideoTrimmerView>(R.id.mVideoTrimmerView))?.setVideoPath(videoPath!!)?.handle()
         }
+    }
+
+    fun trimmer(view: View) {
+        Log.e("-----------", mVideoTrimmerView.getTrimmerPos()[0].toString() + " ::::::: " + mVideoTrimmerView.getTrimmerPos()[1].toString())
     }
 }

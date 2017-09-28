@@ -46,7 +46,7 @@ class TrimmerSeekBar : View {
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        offsetValue = DensityUtils.dip2px(context, Config.DEFAULT_SEEKBAR_OFFSET_VALUE.toFloat())
+        offsetValue = DensityUtils.dip2px(context, Constant.DEFAULT_SEEKBAR_OFFSET_VALUE.toFloat())
         initialPaints()
     }
 
@@ -65,7 +65,7 @@ class TrimmerSeekBar : View {
     private fun initialTrimmerPaint() {
         trimmerPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         trimmerPaint?.color = Color.parseColor("#ffffff")
-        trimmerPaint?.strokeWidth = DensityUtils.dip2px(context, Config.DEFAULT_TRIMMER_STROKE_WIDTH.toFloat()).toFloat()
+        trimmerPaint?.strokeWidth = DensityUtils.dip2px(context, Constant.DEFAULT_TRIMMER_STROKE_WIDTH.toFloat()).toFloat()
         trimmerPaint?.style = Paint.Style.STROKE
     }
 
@@ -186,7 +186,7 @@ class TrimmerSeekBar : View {
         side = ""
         actionDownPosX = -1f
         if (isLeft()) leftPosX = event.x else if (isRight()) rightPosX = event.x else super.onTouchEvent(event)
-        updateThumbBySeekBar?.updateRegionIndex(leftPosX, rightPosX)
+        updateThumbBySeekBar?.updateRegionIndex()
     }
 
     //    - - - - - - - - - -- - - - - - - - - - - - - - - - -  draw logic - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,5 +1,6 @@
 package com.cjh.videotrimmerlibrary.controls
 
+import com.cjh.videotrimmerlibrary.MediaHandleManager
 import com.cjh.videotrimmerlibrary.TrimmerSeekBar
 import com.cjh.videotrimmerlibrary.callback.EndTouchActionListener
 
@@ -10,7 +11,7 @@ class TrimmerSeekBarControl private constructor(trimmerSeekBar: TrimmerSeekBar, 
 
     var leftIndex = 0
 
-    var rightIndex = MediaMetadataRetrieverAgent.getInstance().getConfigVo().showThumbCount
+    var rightIndex = MediaHandleManager.getInstance().getConfigVo().showThumbCount
 
     override fun updateRegionIndex() {
         leftIndex = posConvertIndex(mTrimmerSeekBar.leftPosX).toInt()
@@ -19,8 +20,8 @@ class TrimmerSeekBarControl private constructor(trimmerSeekBar: TrimmerSeekBar, 
     }
 
     private fun posConvertIndex(pos: Float): Float {
-        val increase = mTrimmerSeekBar.imeasureWidth / MediaMetadataRetrieverAgent.getInstance().getConfigVo().showThumbCount
-        return (0 until MediaMetadataRetrieverAgent.getInstance().getConfigVo().showThumbCount)
+        val increase = mTrimmerSeekBar.imeasureWidth / MediaHandleManager.getInstance().getConfigVo().showThumbCount
+        return (0 until MediaHandleManager.getInstance().getConfigVo().showThumbCount)
                 .firstOrNull { pos < (it + 1) * increase }
                 ?.toFloat()
                 ?: 0.toFloat()

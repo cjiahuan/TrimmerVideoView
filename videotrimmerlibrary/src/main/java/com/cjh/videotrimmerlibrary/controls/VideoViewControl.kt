@@ -1,8 +1,8 @@
 package com.cjh.videotrimmerlibrary.controls
 
 import android.text.TextUtils
-import android.util.Log
 import android.widget.VideoView
+import com.cjh.videotrimmerlibrary.MediaHandleManager
 
 /**
  * Created by cjh on 2017/8/30.
@@ -33,10 +33,17 @@ class VideoViewControl private constructor(videoView: VideoView) {
     }
 
 
-    fun start() {
-        if (TextUtils.isEmpty(MediaMetadataRetrieverAgent.getInstance().getConfigVo().videoPath)) throw IllegalArgumentException("VideoViewControl getInstance ::: videoPath cannot be null or empty ")
-        mVideoView.setVideoPath(MediaMetadataRetrieverAgent.getInstance().getConfigVo().videoPath)
+    fun initial() {
+        if (TextUtils.isEmpty(MediaHandleManager.getInstance().getConfigVo().videoPath)) throw IllegalArgumentException("VideoViewControl getInstance ::: videoPath cannot be null or empty ")
+        mVideoView.setVideoPath(MediaHandleManager.getInstance().getConfigVo().videoPath)
         mVideoView.requestFocus()
         mVideoView.start()
+        mVideoView.seekTo(1)
+        mVideoView.pause()
+    }
+
+    fun updatePos(pos: Long) {
+
+        mVideoView.seekTo(pos.toInt())
     }
 }

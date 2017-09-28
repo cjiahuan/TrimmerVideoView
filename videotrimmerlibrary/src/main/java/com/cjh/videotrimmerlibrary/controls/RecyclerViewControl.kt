@@ -29,6 +29,7 @@ class RecyclerViewControl private constructor(recyclerView: RecyclerView, update
                     if (mInstance == null) {
                         recyclerView.adapter = ThumbAdapter()
                         mInstance = RecyclerViewControl(recyclerView, updateTrimmerViewsListener)
+                        recyclerView.addOnScrollListener(mInstance)
                     }
                 }
             }
