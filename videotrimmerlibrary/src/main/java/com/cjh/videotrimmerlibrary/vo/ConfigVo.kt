@@ -8,15 +8,33 @@ import com.cjh.videotrimmerlibrary.callback.IConfig
  */
 class ConfigVo {
 
-    var iConfig: IConfig = DefaultConfig()
+    private var iConfig: IConfig = DefaultConfig()
 
     var videoPath: String? = null
     var width: Int = 0
     var height: Int = 0
     var durationL: Long = 0L
-    var trimmerTimeL: Long = iConfig.getTrimmerTime()
-    var showThumbCount = iConfig.getVisiableThumbCount()
-    var adapterUpdateCount = iConfig.getThumbListUpdateCount()
+
     var thumbItemWidth = 0
     var thumbItemHeight = 0
+
+    var trimmerTimeL: Long = iConfig.getTrimmerTime()
+    var visiableThumbCount = iConfig.getVisiableThumbCount()
+    var adapterUpdateCount = iConfig.getThumbListUpdateCount()
+    var seekBarShaowColor = iConfig.getTrimmerSeekBarShaowColor()
+    var seekBarStrokeColor = iConfig.getTrimmerSeekBarTrimmerStrokeColor()
+    var seekBarStrokeWidth = iConfig.getTrimmerSeekBarTrimmerStrokeWidth()
+
+    fun updateIConfig(icg: IConfig) {
+        trimmerTimeL = icg.getTrimmerTime()
+        visiableThumbCount = icg.getVisiableThumbCount()
+        adapterUpdateCount = icg.getThumbListUpdateCount()
+        seekBarShaowColor = icg.getTrimmerSeekBarShaowColor()
+        seekBarStrokeColor = icg.getTrimmerSeekBarTrimmerStrokeColor()
+        seekBarStrokeWidth = icg.getTrimmerSeekBarTrimmerStrokeWidth()
+    }
+
+    fun getVisiableEndPos(): Long {
+        return Math.min(trimmerTimeL, durationL)
+    }
 }

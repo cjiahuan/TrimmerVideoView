@@ -22,7 +22,6 @@ internal class MediaHandleManager {
     private constructor() {
         mRetr = MediaMetadataRetriever()
         mConfigVo = ConfigVo()
-        mConfigVo.iConfig = DefaultConfig()
     }
 
     companion object {
@@ -40,7 +39,7 @@ internal class MediaHandleManager {
     }
 
     fun setIConfig(icg: IConfig): MediaHandleManager {
-        mConfigVo.iConfig = icg
+        mConfigVo.updateIConfig(icg)
         return this
     }
 
@@ -62,7 +61,7 @@ internal class MediaHandleManager {
         if (mConfigVo.thumbItemWidth > 0 && mConfigVo.thumbItemHeight > 0) {
             return
         }
-        mConfigVo.thumbItemWidth = wh[0] / mConfigVo.showThumbCount
+        mConfigVo.thumbItemWidth = wh[0] / mConfigVo.visiableThumbCount
         mConfigVo.thumbItemHeight = wh[1]
     }
 
@@ -98,6 +97,8 @@ internal class MediaHandleManager {
                 }, { t -> t?.printStackTrace() })
     }
 
+//    CommonUtils.ratio(frame, mConfigVo.thumbItemWidth * 1.5f, mConfigVo.thumbItemHeight * 1.5f)
+
     private fun getFrameThumbVos(t: Int, radixPosition: Long): ArrayList<ThumbVo> {
         val thumbVos = ArrayList<ThumbVo>()
         val realIndex = t * mConfigVo.adapterUpdateCount
@@ -105,7 +106,7 @@ internal class MediaHandleManager {
         for (i in 0 until mConfigVo.adapterUpdateCount) {
             pos = (realIndex + i) * radixPosition * 1000
             val frame = mRetr.getFrameAtTime(pos, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-            thumbVos.add(ThumbVo(CommonUtils.bitmap2byte(CommonUtils.ratio(frame, mConfigVo.thumbItemWidth * 1.5f, mConfigVo.thumbItemHeight * 1.5f)), pos))
+            thumbVos.add(ThumbVo(CommonUtils.bitmap2byte(frame), pos))
         }
         return thumbVos
     }
@@ -121,10 +122,9 @@ internal class MediaHandleManager {
     }
 
     private fun calculateRadixPosition(): Long {
-        val theoryThumbCount = mConfigVo.durationL / 1000
-        var radixPosition = 1000L
-        if (theoryThumbCount < mConfigVo.showThumbCount) {
-            radixPosition = mConfigVo.durationL / mConfigVo.showThumbCount
+        var radixPosition = mConfigVo.trimmerTimeL / mConfigVo.visiableThumbCount
+        if (mConfigVo.trimmerTimeL > mConfigVo.durationL) {
+            radixPosition = mConfigVo.durationL / mConfigVo.visiableThumbCount
         }
         return radixPosition
     }

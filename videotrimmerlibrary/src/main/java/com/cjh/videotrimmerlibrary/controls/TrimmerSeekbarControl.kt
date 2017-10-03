@@ -4,48 +4,66 @@ import android.util.Log
 import com.cjh.videotrimmerlibrary.MediaHandleManager
 import com.cjh.videotrimmerlibrary.TrimmerSeekBar
 import com.cjh.videotrimmerlibrary.callback.EndTouchActionListener
+import com.cjh.videotrimmerlibrary.callback.UpdatePosListener
 
 /**
  * Created by cjh on 2017/9/6.
  */
-class TrimmerSeekBarControl private constructor(trimmerSeekBar: TrimmerSeekBar, listener: EndTouchActionListener) : EndTouchActionListener {
+class TrimmerSeekBarControl private constructor(trimmerSeekBar: TrimmerSeekBar, listener: EndTouchActionListener, listener2: UpdatePosListener) : EndTouchActionListener, UpdatePosListener {
+
+    val mTrimmerSeekBar = trimmerSeekBar
+
+    val endTouchActionListener = listener
+
+    val updatePosListener = listener2
+
+    override fun updatePos() {
+        updateIndex()
+        updatePosListener.updatePos()
+    }
 
     var leftIndex = 0
 
-    var rightIndex = MediaHandleManager.getInstance().getConfigVo().showThumbCount
+    var rightIndex = MediaHandleManager.getInstance().getConfigVo().visiableThumbCount
 
     override fun updateRegionIndex() {
-        leftIndex = posConvertIndex(mTrimmerSeekBar.leftPosX).toInt()
-        rightIndex = posConvertIndex(mTrimmerSeekBar.rightPosX).toInt()
+        updateIndex()
         endTouchActionListener.updateRegionIndex()
     }
+
+    private fun updateIndex() {
+        leftIndex = posConvertIndex(mTrimmerSeekBar.leftPosX).toInt()
+        rightIndex = posConvertIndex(mTrimmerSeekBar.rightPosX).toInt()
+    }
+
+    fun getLeftPosX(): Float = mTrimmerSeekBar.leftPosX
+
+    fun getRightPosX(): Float = mTrimmerSeekBar.rightPosX
 
     private fun posConvertIndex(pos: Float): Float {
         if (pos <= 0) {
             return 0f
         }
         if (pos >= mTrimmerSeekBar.imeasureWidth) {
-            return MediaHandleManager.getInstance().getConfigVo().showThumbCount.toFloat()
+            return MediaHandleManager.getInstance().getConfigVo().visiableThumbCount.toFloat()
         }
-        val increase = mTrimmerSeekBar.imeasureWidth / MediaHandleManager.getInstance().getConfigVo().showThumbCount
-        return (0 until MediaHandleManager.getInstance().getConfigVo().showThumbCount)
-                .firstOrNull { pos <= (it + 1) * increase }
+        val increase = mTrimmerSeekBar.imeasureWidth / MediaHandleManager.getInstance().getConfigVo().visiableThumbCount
+        return (0 until MediaHandleManager.getInstance().getConfigVo().visiableThumbCount)
+                .firstOrNull { pos <= it * increase }
                 ?.toFloat()
-                ?: 0.toFloat()
+                ?: (MediaHandleManager.getInstance().getConfigVo().visiableThumbCount - 1).toFloat()
     }
 
-    val mTrimmerSeekBar = trimmerSeekBar
-
-    val endTouchActionListener = listener
 
     companion object {
         private var mInstance: TrimmerSeekBarControl? = null
-        fun getInstance(trimmerSeekBar: TrimmerSeekBar, listener: EndTouchActionListener): TrimmerSeekBarControl {
+        fun getInstance(trimmerSeekBar: TrimmerSeekBar, listener: EndTouchActionListener, updatePosListener: UpdatePosListener): TrimmerSeekBarControl {
             if (mInstance == null) {
                 synchronized(TrimmerSeekBarControl::class) {
                     if (mInstance == null) {
-                        mInstance = TrimmerSeekBarControl(trimmerSeekBar, listener)
+                        mInstance = TrimmerSeekBarControl(trimmerSeekBar, listener, updatePosListener)
                         trimmerSeekBar.addEndActionListener(mInstance!!)
+                        trimmerSeekBar.addUpdatePosListener(mInstance!!)
                     }
                 }
             }

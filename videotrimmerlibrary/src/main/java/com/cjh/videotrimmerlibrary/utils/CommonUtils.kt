@@ -39,6 +39,8 @@ class CommonUtils {
             if (bitmap == null) bitmap = image
             return bitmap
         }
+
+
     }
 
 }

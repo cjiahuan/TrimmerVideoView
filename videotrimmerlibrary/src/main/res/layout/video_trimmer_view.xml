@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
@@ -20,26 +21,61 @@
 
     </FrameLayout>
 
-    <RelativeLayout
-        android:id="@+id/trimmerViewsWrapper"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="25dp">
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <RelativeLayout
+            android:id="@+id/cursorPosParent"
             android:layout_width="match_parent"
-            android:layout_height="60dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:visibility="visible">
 
-        <com.cjh.videotrimmerlibrary.TrimmerSeekBar
-            android:id="@+id/trimmerSeekBar"
+            <TextView
+                android:id="@+id/leftPos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0:00"
+                android:textColor="#fff"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/rightPos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="0:00"
+                android:textColor="#fff"
+                android:textSize="11sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/trimmerViewsWrapper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="60dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp">
 
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="60dp" />
+
+            <com.cjh.videotrimmerlibrary.TrimmerSeekBar
+                android:id="@+id/trimmerSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>

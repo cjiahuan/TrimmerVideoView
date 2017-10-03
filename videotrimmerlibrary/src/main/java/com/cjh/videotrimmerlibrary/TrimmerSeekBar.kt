@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.cjh.videotrimmerlibrary.callback.EndTouchActionListener
+import com.cjh.videotrimmerlibrary.callback.UpdatePosListener
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
 
 /**
@@ -41,6 +42,8 @@ class TrimmerSeekBar : View {
 
     var updateThumbBySeekBar: EndTouchActionListener? = null
 
+    var updatePosListener: UpdatePosListener? = null
+
     constructor(context: Context) : this(context, null, 0)
 
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
@@ -58,21 +61,29 @@ class TrimmerSeekBar : View {
 
     private fun initialShadowPaint() {
         shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        shadowPaint?.color = Color.parseColor("#9a000000")
+        shadowPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarShaowColor)
         shadowPaint?.style = Paint.Style.FILL_AND_STROKE
     }
 
     private fun initialTrimmerPaint() {
         trimmerPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        trimmerPaint?.color = Color.parseColor("#ffffff")
-        trimmerPaint?.strokeWidth = DensityUtils.dip2px(context, Constant.DEFAULT_TRIMMER_STROKE_WIDTH.toFloat()).toFloat()
+        trimmerPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarStrokeColor)
+        trimmerPaint?.strokeWidth = DensityUtils.dip2px(context, MediaHandleManager.getInstance().getConfigVo().seekBarStrokeWidth.toFloat()).toFloat()
         trimmerPaint?.style = Paint.Style.STROKE
     }
 
     private fun initialCursorPaint() {
         cursorPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        cursorPaint?.color = Color.parseColor("#ffffff")
+        cursorPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarStrokeColor)
         cursorPaint?.style = Paint.Style.FILL_AND_STROKE
+    }
+
+    fun updateParinColor() {
+        shadowPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarShaowColor)
+        trimmerPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarStrokeColor)
+        trimmerPaint?.strokeWidth = DensityUtils.dip2px(context, MediaHandleManager.getInstance().getConfigVo().seekBarStrokeWidth.toFloat()).toFloat()
+        cursorPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarStrokeColor)
+        postInvalidate()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -84,6 +95,7 @@ class TrimmerSeekBar : View {
         var imeasureHeight = 0
         if (widthMode == MeasureSpec.EXACTLY) {
             imeasureWidth = widthSize
+            Log.e("imeasureWidth", imeasureWidth.toString())
         }
         if (heightMode == MeasureSpec.EXACTLY) {
             imeasureHeight = heightSize
@@ -113,7 +125,6 @@ class TrimmerSeekBar : View {
         if (event == null) {
             return super.onTouchEvent(event)
         }
-        Log.e("11111111111111", event.action.toString())
         when (event.action) {
             MotionEvent.ACTION_DOWN -> if (checkMoveAvailableByDownEvent(event)) return true
             MotionEvent.ACTION_MOVE -> if (isAvailableMove(event)) return true
@@ -147,13 +158,14 @@ class TrimmerSeekBar : View {
 
     private fun isAvailableMove(event: MotionEvent): Boolean {
         val movingX = event.x
-        var available = false
-        if (isLeft()) {
-            available = actionMoveLeft(movingX)
-        } else if (isRight()) {
-            available = actionMoveRight(movingX)
-        } else {
-            available = false
+        val available: Boolean
+        available = when {
+            isLeft() -> actionMoveLeft(movingX)
+            isRight() -> actionMoveRight(movingX)
+            else -> false
+        }
+        if (available) {
+            updatePosListener?.updatePos()
         }
         return available
     }
@@ -226,5 +238,9 @@ class TrimmerSeekBar : View {
 
     fun addEndActionListener(listener: EndTouchActionListener) {
         updateThumbBySeekBar = listener
+    }
+
+    fun addUpdatePosListener(updatePosListener: UpdatePosListener) {
+        this.updatePosListener = updatePosListener
     }
 }

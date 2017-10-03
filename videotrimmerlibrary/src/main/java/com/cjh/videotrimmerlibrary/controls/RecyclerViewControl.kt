@@ -57,4 +57,10 @@ class RecyclerViewControl private constructor(recyclerView: RecyclerView, update
 
     }
 
+    override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+        val layoutManager = recyclerView?.layoutManager as LinearLayoutManager
+        firstItemPosition = layoutManager.findFirstVisibleItemPosition()
+        mUpdateTrimmerViewsListener.updateByScroll()
+    }
+
 }

@@ -1,10 +1,14 @@
 package com.cjh.videotrimmerlibrary
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import android.widget.TextView
+import android.widget.VideoView
 import com.cjh.videotrimmerlibrary.callback.IConfig
 import com.cjh.videotrimmerlibrary.controls.RegulatorControl
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
@@ -23,8 +27,33 @@ class VideoTrimmerView : FrameLayout {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         LayoutInflater.from(context).inflate(mLayoutId, this)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        RegulatorControl.getInstance(videoView, recyclerView, trimmerSeekBar)
+        getRecyclerView().layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        RegulatorControl.getInstance(this)
+    }
+
+    @SuppressLint("WrongViewCast")
+    fun getVideoView(): VideoView {
+        return findViewById<VideoView>(R.id.videoView)
+    }
+
+    @SuppressLint("WrongViewCast")
+    fun getRecyclerView(): RecyclerView {
+        return findViewById<RecyclerView>(R.id.recyclerView)
+    }
+
+    @SuppressLint("WrongViewCast")
+    fun getTrimmerSeekBar(): TrimmerSeekBar {
+        return findViewById<TrimmerSeekBar>(R.id.trimmerSeekBar)
+    }
+
+    @SuppressLint("WrongViewCast")
+    fun getLeftPosTextView(): TextView {
+        return findViewById<TextView>(R.id.leftPos)
+    }
+
+    @SuppressLint("WrongViewCast")
+    fun getRightPosTextView(): TextView {
+        return findViewById<TextView>(R.id.rightPos)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -49,6 +78,7 @@ class VideoTrimmerView : FrameLayout {
     fun release() {
         RegulatorControl.getInstance().release()
     }
+
 
     fun getTrimmerPos(): LongArray = RegulatorControl.getInstance().getTrimmerPos()
 }

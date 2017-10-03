@@ -43,7 +43,6 @@ class VideoViewControl private constructor(videoView: VideoView) {
     }
 
     fun updatePos(pos: Long) {
-
         mVideoView.seekTo(pos.toInt())
     }
 }
