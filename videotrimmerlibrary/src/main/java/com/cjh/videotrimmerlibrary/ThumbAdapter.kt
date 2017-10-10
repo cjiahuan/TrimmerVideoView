@@ -1,6 +1,7 @@
 package com.cjh.videotrimmerlibrary
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,7 @@ class ThumbAdapter : RecyclerView.Adapter<ThumbAdapter.ThumViewHolder>() {
 
     override fun onBindViewHolder(holder: ThumViewHolder?, position: Int) {
         if (mDatas[position] != null) {
+            Log.e("onBindViewHolder", "positon = " + position + " :: " + "pos = " + mDatas[position].positionL)
             holder?.render(mDatas[position].bitmapByte)
         } else {
 

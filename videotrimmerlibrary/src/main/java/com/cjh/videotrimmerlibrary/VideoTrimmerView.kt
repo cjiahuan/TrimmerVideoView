@@ -79,6 +79,5 @@ class VideoTrimmerView : FrameLayout {
         RegulatorControl.getInstance().release()
     }
 
-
     fun getTrimmerPos(): LongArray = RegulatorControl.getInstance().getTrimmerPos()
 }

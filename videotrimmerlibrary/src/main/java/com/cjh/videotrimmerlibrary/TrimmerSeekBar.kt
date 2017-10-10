@@ -78,14 +78,6 @@ class TrimmerSeekBar : View {
         cursorPaint?.style = Paint.Style.FILL_AND_STROKE
     }
 
-    fun updateParinColor() {
-        shadowPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarShaowColor)
-        trimmerPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarStrokeColor)
-        trimmerPaint?.strokeWidth = DensityUtils.dip2px(context, MediaHandleManager.getInstance().getConfigVo().seekBarStrokeWidth.toFloat()).toFloat()
-        cursorPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarStrokeColor)
-        postInvalidate()
-    }
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
@@ -198,6 +190,8 @@ class TrimmerSeekBar : View {
         side = ""
         actionDownPosX = -1f
         if (isLeft()) leftPosX = event.x else if (isRight()) rightPosX = event.x else super.onTouchEvent(event)
+        Log.e("201::", leftPosX.toString())
+        Log.e("202::", rightPosX.toString())
         updateThumbBySeekBar?.updateRegionIndex()
     }
 
@@ -242,5 +236,14 @@ class TrimmerSeekBar : View {
 
     fun addUpdatePosListener(updatePosListener: UpdatePosListener) {
         this.updatePosListener = updatePosListener
+    }
+
+    fun changePaints() {
+        offsetValue = MediaHandleManager.getInstance().getConfigVo().offsetValue
+        shadowPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarShaowColor)
+        trimmerPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarStrokeColor)
+        trimmerPaint?.strokeWidth = DensityUtils.dip2px(context, MediaHandleManager.getInstance().getConfigVo().seekBarStrokeWidth.toFloat()).toFloat()
+        cursorPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarStrokeColor)
+        postInvalidate()
     }
 }

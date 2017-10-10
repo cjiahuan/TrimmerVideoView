@@ -1,5 +1,6 @@
 package com.cjh.videotrimmerlibrary.controls
 
+import android.annotation.SuppressLint
 import android.text.TextUtils
 import android.widget.VideoView
 import com.cjh.videotrimmerlibrary.MediaHandleManager
@@ -9,10 +10,12 @@ import com.cjh.videotrimmerlibrary.MediaHandleManager
  */
 class VideoViewControl private constructor(videoView: VideoView) {
 
-    val mVideoView = videoView
+    private var mVideoView: VideoView = videoView
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         private var mInstance: VideoViewControl? = null
+
         fun getInstance(videoView: VideoView): VideoViewControl {
             if (mInstance == null) {
                 synchronized(VideoViewControl::class) {
@@ -44,5 +47,11 @@ class VideoViewControl private constructor(videoView: VideoView) {
 
     fun updatePos(pos: Long) {
         mVideoView.seekTo(pos.toInt())
+    }
+
+    fun release() {
+        mInstance = null
+        mVideoView.seekTo(0)
+        mVideoView.pause()
     }
 }

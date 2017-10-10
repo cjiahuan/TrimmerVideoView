@@ -61,8 +61,6 @@ class RegulatorControl private constructor(leftPos: TextView, rightPos: TextView
     }
 
     private fun updatePosTextViewsContent() {
-        Log.e("64 ::: ", TrimmerSeekBarControl.getInstance().rightIndex.toString())
-        Log.e("65 ::: ", getThumbPos(TrimmerSeekBarControl.getInstance().rightIndex).toString())
         setPosTextViews(getThumbPos(TrimmerSeekBarControl.getInstance().leftIndex), getThumbPos(TrimmerSeekBarControl.getInstance().rightIndex))
     }
 
@@ -124,12 +122,14 @@ class RegulatorControl private constructor(leftPos: TextView, rightPos: TextView
 
     fun release() {
         mInstance = null
+        RecyclerViewControl.getInstance().release()
+        VideoViewControl.getInstance().release()
         MediaHandleManager.getInstance().release()
     }
 
     fun setIConfig(icg: IConfig) {
         MediaHandleManager.getInstance().setIConfig(icg)
-        TrimmerSeekBarControl.getInstance().mTrimmerSeekBar.postInvalidate()
+        TrimmerSeekBarControl.getInstance().mTrimmerSeekBar.changePaints()
     }
 
     fun getTrimmerPos(): LongArray = longArrayOf(getThumbPos(TrimmerSeekBarControl.getInstance().leftIndex), getThumbPos(TrimmerSeekBarControl.getInstance().rightIndex))

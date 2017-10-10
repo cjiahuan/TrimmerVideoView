@@ -13,7 +13,7 @@ class CommonUtils {
     companion object {
         fun bitmap2byte(bitmap: Bitmap): ByteArray {
             val ba = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ba)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, ba)
             return ba.toByteArray()
         }
 

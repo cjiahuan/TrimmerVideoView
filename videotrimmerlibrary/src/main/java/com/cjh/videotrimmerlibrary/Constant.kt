@@ -23,6 +23,7 @@ class Constant {
         val DEFAULT_SHAOW_COLOR = "#9a000000"
         val DEFAULT_TRIMMER_COLRO = "#ffffff"
         val DEFAULT_TRIMMER_STROKE_WIDTH = 3
+        val DEFAULT_TRIMMER_MINTIME: Long = 3000L
 
     }
 

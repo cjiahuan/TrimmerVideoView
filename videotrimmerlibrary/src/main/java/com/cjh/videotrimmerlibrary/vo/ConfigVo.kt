@@ -18,7 +18,8 @@ class ConfigVo {
     var thumbItemWidth = 0
     var thumbItemHeight = 0
 
-    var trimmerTimeL: Long = iConfig.getTrimmerTime()
+    var trimmerTimeL = iConfig.getTrimmerTime()
+    var offsetValue = iConfig.getTrimmerOffsetValue()
     var visiableThumbCount = iConfig.getVisiableThumbCount()
     var adapterUpdateCount = iConfig.getThumbListUpdateCount()
     var seekBarShaowColor = iConfig.getTrimmerSeekBarShaowColor()
@@ -34,7 +35,5 @@ class ConfigVo {
         seekBarStrokeWidth = icg.getTrimmerSeekBarTrimmerStrokeWidth()
     }
 
-    fun getVisiableEndPos(): Long {
-        return Math.min(trimmerTimeL, durationL)
-    }
+    fun getVisiableEndPos(): Long = Math.min(trimmerTimeL, durationL)
 }

@@ -63,4 +63,7 @@ class RecyclerViewControl private constructor(recyclerView: RecyclerView, update
         mUpdateTrimmerViewsListener.updateByScroll()
     }
 
+    fun release() {
+        mInstance = null
+    }
 }

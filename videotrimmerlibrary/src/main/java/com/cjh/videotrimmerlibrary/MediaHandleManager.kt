@@ -9,7 +9,10 @@ import com.cjh.videotrimmerlibrary.vo.ConfigVo
 import com.cjh.videotrimmerlibrary.vo.ThumbVo
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.reactivestreams.Subscriber
+import java.lang.Exception
 
 /**
  * Created by cjh on 2017/8/31.
@@ -18,6 +21,8 @@ internal class MediaHandleManager {
 
     private var mRetr: MediaMetadataRetriever
     private var mConfigVo: ConfigVo
+
+    private var disposable: Disposable? = null
 
     private constructor() {
         mRetr = MediaMetadataRetriever()
@@ -50,6 +55,7 @@ internal class MediaHandleManager {
     }
 
     private fun initialConfigVo() {
+        mRetr = MediaMetadataRetriever()
         mRetr.setDataSource(mConfigVo.videoPath)
         mConfigVo.durationL = java.lang.Long.parseLong(mRetr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION))
         val wh = getRightWH()
@@ -88,25 +94,31 @@ internal class MediaHandleManager {
         val totalThumbCount = mConfigVo.durationL / radixPosition
         val shoudDoSpecialLogicAtLastGroup = ((totalThumbCount % mConfigVo.adapterUpdateCount) != 0L)
         val groups: ArrayList<Int> = getCountGroups(totalThumbCount, shoudDoSpecialLogicAtLastGroup)
-        Flowable.fromIterable(groups)
+        disposable = Flowable.fromIterable(groups)
                 .subscribeOn(Schedulers.io())
                 .flatMap { t -> Flowable.just(getFrameThumbVos(t, radixPosition)) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t ->
                     if (t != null) listener.update(t)
-                }, { t -> t?.printStackTrace() })
+                }, { t -> t.printStackTrace() }) { mRetr.release() }
     }
 
-//    CommonUtils.ratio(frame, mConfigVo.thumbItemWidth * 1.5f, mConfigVo.thumbItemHeight * 1.5f)
-
+    //    CommonUtils.ratio(frame, mConfigVo.thumbItemWidth * 1.5f, mConfigVo.thumbItemHeight * 1.5f)
     private fun getFrameThumbVos(t: Int, radixPosition: Long): ArrayList<ThumbVo> {
         val thumbVos = ArrayList<ThumbVo>()
         val realIndex = t * mConfigVo.adapterUpdateCount
         var pos: Long
         for (i in 0 until mConfigVo.adapterUpdateCount) {
             pos = (realIndex + i) * radixPosition * 1000
-            val frame = mRetr.getFrameAtTime(pos, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-            thumbVos.add(ThumbVo(CommonUtils.bitmap2byte(frame), pos))
+            if (pos > mConfigVo.durationL * 1000) {
+                break
+            }
+            try {
+                val frame = mRetr.getFrameAtTime(pos, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                thumbVos.add(ThumbVo(CommonUtils.bitmap2byte(frame), pos))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
         return thumbVos
     }
@@ -131,6 +143,8 @@ internal class MediaHandleManager {
 
     fun release() {
         mInstance = null
+        mRetr.release()
+        disposable?.dispose()
     }
 
 }

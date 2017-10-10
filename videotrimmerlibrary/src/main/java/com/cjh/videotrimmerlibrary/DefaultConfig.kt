@@ -17,4 +17,8 @@ class DefaultConfig : IConfig {
     override fun getTrimmerSeekBarTrimmerStrokeColor(): String = Constant.DEFAULT_TRIMMER_COLRO
 
     override fun getTrimmerSeekBarTrimmerStrokeWidth(): Int = Constant.DEFAULT_TRIMMER_STROKE_WIDTH
+
+    override fun getTrimmerOffsetValue(): Int = Constant.DEFAULT_SEEKBAR_OFFSET_VALUE
+
+    override fun getMinTrimmerTime(): Long = Constant.DEFAULT_TRIMMER_MINTIME
 }

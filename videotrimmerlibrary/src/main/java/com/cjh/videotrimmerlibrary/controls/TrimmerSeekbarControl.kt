@@ -44,14 +44,11 @@ class TrimmerSeekBarControl private constructor(trimmerSeekBar: TrimmerSeekBar, 
         if (pos <= 0) {
             return 0f
         }
-        if (pos >= mTrimmerSeekBar.imeasureWidth) {
-            return MediaHandleManager.getInstance().getConfigVo().visiableThumbCount.toFloat()
-        }
         val increase = mTrimmerSeekBar.imeasureWidth / MediaHandleManager.getInstance().getConfigVo().visiableThumbCount
         return (0 until MediaHandleManager.getInstance().getConfigVo().visiableThumbCount)
-                .firstOrNull { pos <= it * increase }
+                .firstOrNull { pos <= (it + 1) * increase }
                 ?.toFloat()
-                ?: (MediaHandleManager.getInstance().getConfigVo().visiableThumbCount - 1).toFloat()
+                ?: (MediaHandleManager.getInstance().getConfigVo().visiableThumbCount).toFloat()
     }
 
 

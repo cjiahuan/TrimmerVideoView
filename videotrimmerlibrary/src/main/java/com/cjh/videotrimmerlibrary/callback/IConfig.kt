@@ -16,4 +16,8 @@ interface IConfig {
     fun getTrimmerSeekBarTrimmerStrokeColor(): String
 
     fun getTrimmerSeekBarTrimmerStrokeWidth(): Int
+
+    fun getTrimmerOffsetValue(): Int
+
+    fun getMinTrimmerTime(): Long
 }
