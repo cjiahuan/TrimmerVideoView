@@ -3,8 +3,8 @@ package com.cjh.videotrimmerlibrary.utils
 import android.content.Context
 
 /**
- * Created by cjh on 2017/9/4.
- */
+* Created by cjh on 2017/9/4.
+*/
 class DensityUtils {
 
     companion object {

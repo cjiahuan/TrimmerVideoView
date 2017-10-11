@@ -15,11 +15,11 @@ import com.cjh.videotrimmerlibrary.utils.DensityUtils
 import kotlinx.android.synthetic.main.video_trimmer_view.view.*
 
 /**
- * Created by cjh on 2017/8/28.
- */
+* Created by cjh on 2017/8/28.
+*/
 class VideoTrimmerView : FrameLayout {
 
-    var mLayoutId = R.layout.video_trimmer_view
+    private var mLayoutId = R.layout.video_trimmer_view
 
     constructor(context: Context) : this(context, null, 0)
 
@@ -32,29 +32,19 @@ class VideoTrimmerView : FrameLayout {
     }
 
     @SuppressLint("WrongViewCast")
-    fun getVideoView(): VideoView {
-        return findViewById<VideoView>(R.id.videoView)
-    }
+    fun getVideoView(): VideoView = findViewById(R.id.videoView)
 
     @SuppressLint("WrongViewCast")
-    fun getRecyclerView(): RecyclerView {
-        return findViewById<RecyclerView>(R.id.recyclerView)
-    }
+    fun getRecyclerView(): RecyclerView = findViewById(R.id.recyclerView)
 
     @SuppressLint("WrongViewCast")
-    fun getTrimmerSeekBar(): TrimmerSeekBar {
-        return findViewById<TrimmerSeekBar>(R.id.trimmerSeekBar)
-    }
+    fun getTrimmerSeekBar(): TrimmerSeekBar = findViewById(R.id.trimmerSeekBar)
 
     @SuppressLint("WrongViewCast")
-    fun getLeftPosTextView(): TextView {
-        return findViewById<TextView>(R.id.leftPos)
-    }
+    fun getLeftPosTextView(): TextView = findViewById(R.id.leftPos)
 
     @SuppressLint("WrongViewCast")
-    fun getRightPosTextView(): TextView {
-        return findViewById<TextView>(R.id.rightPos)
-    }
+    fun getRightPosTextView(): TextView = findViewById(R.id.rightPos)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)

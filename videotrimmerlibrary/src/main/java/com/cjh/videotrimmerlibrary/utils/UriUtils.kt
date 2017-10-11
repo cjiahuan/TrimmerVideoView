@@ -1,5 +1,6 @@
 package com.cjh.videotrimmerlibrary.utils
 
+import android.annotation.SuppressLint
 import android.provider.MediaStore
 import android.provider.DocumentsContract
 import android.content.ContentUris
@@ -12,8 +13,8 @@ import android.support.annotation.RequiresApi
 
 
 /**
- * Created by cjh on 2017/9/6.
- */
+* Created by cjh on 2017/9/6.
+*/
 class UriUtils {
 
     companion object {
@@ -82,7 +83,9 @@ class UriUtils {
         return null
     }
 
-    /**
+    @SuppressLint("Recycle")
+    private
+            /**
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
      *
@@ -100,14 +103,14 @@ class UriUtils {
         val projection = arrayOf(column)
 
         try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null)
-            if (cursor != null && cursor!!.moveToFirst()) {
-                val column_index = cursor!!.getColumnIndexOrThrow(column)
-                return cursor!!.getString(column_index)
+            cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, null)
+            if (cursor != null && cursor.moveToFirst()) {
+                val column_index = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(column_index)
             }
         } finally {
             if (cursor != null)
-                cursor!!.close()
+                cursor.close()
         }
         return null
     }

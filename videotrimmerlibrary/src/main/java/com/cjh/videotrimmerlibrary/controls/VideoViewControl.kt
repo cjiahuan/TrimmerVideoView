@@ -6,8 +6,8 @@ import android.widget.VideoView
 import com.cjh.videotrimmerlibrary.MediaHandleManager
 
 /**
- * Created by cjh on 2017/8/30.
- */
+* Created by cjh on 2017/8/30.
+*/
 class VideoViewControl private constructor(videoView: VideoView) {
 
     private var mVideoView: VideoView = videoView

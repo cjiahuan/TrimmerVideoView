@@ -6,8 +6,8 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
 /**
- * Created by cjh on 2017/9/6.
- */
+* Created by cjh on 2017/9/6.
+*/
 class CommonUtils {
 
     companion object {

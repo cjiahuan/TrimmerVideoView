@@ -4,8 +4,8 @@ import com.cjh.videotrimmerlibrary.DefaultConfig
 import com.cjh.videotrimmerlibrary.callback.IConfig
 
 /**
- * Created by cjh on 2017/8/31.
- */
+* Created by cjh on 2017/8/31.
+*/
 class ConfigVo {
 
     private var iConfig: IConfig = DefaultConfig()

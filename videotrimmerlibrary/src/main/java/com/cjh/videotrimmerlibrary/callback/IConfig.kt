@@ -1,8 +1,8 @@
 package com.cjh.videotrimmerlibrary.callback
 
 /**
- * Created by cjh on 2017/9/28.
- */
+* Created by cjh on 2017/9/28.
+*/
 interface IConfig {
 
     fun getTrimmerTime(): Long

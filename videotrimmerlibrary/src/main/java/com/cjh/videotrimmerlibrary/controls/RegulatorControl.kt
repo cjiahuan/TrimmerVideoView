@@ -1,7 +1,6 @@
 package com.cjh.videotrimmerlibrary.controls
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.cjh.videotrimmerlibrary.MediaHandleManager
@@ -11,17 +10,16 @@ import com.cjh.videotrimmerlibrary.callback.EndScrollActionListener
 import com.cjh.videotrimmerlibrary.callback.IConfig
 import com.cjh.videotrimmerlibrary.callback.UpdatePosListener
 import java.text.SimpleDateFormat
-import java.util.*
 
 /**
- * Created by cjh on 2017/8/31.
- */
+* Created by cjh on 2017/8/31.
+*/
 class RegulatorControl private constructor(leftPos: TextView, rightPos: TextView) : EndScrollActionListener, EndTouchActionListener, UpdatePosListener {
 
 
-    val leftPosTv = leftPos
+    private val leftPosTv = leftPos
 
-    val rightPosTv = rightPos
+    private val rightPosTv = rightPos
 
     override fun updatePos() {
         updatePosTextViewsMargin()
@@ -115,13 +113,17 @@ class RegulatorControl private constructor(leftPos: TextView, rightPos: TextView
         MediaHandleManager.getInstance().getFrameThumb(RecyclerViewControl.getInstance())
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun setPosTextViews(leftPos: Long, rightPos: Long) {
-        leftPosTv.text = SimpleDateFormat("m:ss").format(Date(leftPos))
-        rightPosTv.text = SimpleDateFormat("m:ss").format(rightPos)
+        val realLeftPos = Math.rint(leftPos.toDouble() / 1000).toLong() * 1000
+        val realRightPos = Math.rint(rightPos.toDouble() / 1000).toLong() * 1000
+        leftPosTv.text = SimpleDateFormat("m:ss").format(realLeftPos)
+        rightPosTv.text = SimpleDateFormat("m:ss").format(realRightPos)
     }
 
     fun release() {
         mInstance = null
+        TrimmerSeekBarControl.getInstance().release()
         RecyclerViewControl.getInstance().release()
         VideoViewControl.getInstance().release()
         MediaHandleManager.getInstance().release()

@@ -3,8 +3,8 @@ package com.cjh.videotrimmerlibrary
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
 
 /**
- * Created by cjh on 2017/8/30.
- */
+* Created by cjh on 2017/8/30.
+*/
 class Constant {
 
     companion object {

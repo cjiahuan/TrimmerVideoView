@@ -11,8 +11,8 @@ import com.cjh.videotrimmerlibrary.vo.ThumbVo
 
 
 /**
- * Created by cjh on 2017/8/30.
- */
+* Created by cjh on 2017/8/30.
+*/
 class ThumbAdapter : RecyclerView.Adapter<ThumbAdapter.ThumViewHolder>() {
 
     var mDatas: ArrayList<ThumbVo> = arrayListOf<ThumbVo>()
@@ -35,12 +35,7 @@ class ThumbAdapter : RecyclerView.Adapter<ThumbAdapter.ThumViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ThumViewHolder?, position: Int) {
-        if (mDatas[position] != null) {
-            Log.e("onBindViewHolder", "positon = " + position + " :: " + "pos = " + mDatas[position].positionL)
             holder?.render(mDatas[position].bitmapByte)
-        } else {
-
-        }
     }
 
     inner class ThumViewHolder(item: View) : RecyclerView.ViewHolder(item) {

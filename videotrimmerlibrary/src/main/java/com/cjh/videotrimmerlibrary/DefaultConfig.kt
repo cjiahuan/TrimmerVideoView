@@ -3,8 +3,8 @@ package com.cjh.videotrimmerlibrary
 import com.cjh.videotrimmerlibrary.callback.IConfig
 
 /**
- * Created by cjh on 2017/9/28.
- */
+* Created by cjh on 2017/9/28.
+*/
 class DefaultConfig : IConfig {
     override fun getTrimmerTime(): Long = Constant.DEFAULT_TRIMMER_TIME
 

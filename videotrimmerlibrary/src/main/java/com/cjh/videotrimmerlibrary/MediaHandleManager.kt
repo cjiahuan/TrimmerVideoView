@@ -1,7 +1,6 @@
 package com.cjh.videotrimmerlibrary
 
 import android.media.MediaMetadataRetriever
-import android.text.TextUtils
 import com.cjh.videotrimmerlibrary.callback.GetFrameListener
 import com.cjh.videotrimmerlibrary.callback.IConfig
 import com.cjh.videotrimmerlibrary.utils.CommonUtils
@@ -11,12 +10,11 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Subscriber
 import java.lang.Exception
 
 /**
- * Created by cjh on 2017/8/31.
- */
+* Created by cjh on 2017/8/31.
+*/
 internal class MediaHandleManager {
 
     private var mRetr: MediaMetadataRetriever
@@ -127,16 +125,14 @@ internal class MediaHandleManager {
         var group = (totalThumbCount / mConfigVo.adapterUpdateCount).toInt()
         if (shoudDoSpecialLogicAtLastGroup) group++
         val groupArray = ArrayList<Int>()
-        for (i in 0 until group) {
-            groupArray.add(i)
-        }
+        groupArray += 0 until group
         return groupArray
     }
 
     private fun calculateRadixPosition(): Long {
-        var radixPosition = mConfigVo.trimmerTimeL / mConfigVo.visiableThumbCount
+        var radixPosition = mConfigVo.trimmerTimeL / (mConfigVo.visiableThumbCount-1)
         if (mConfigVo.trimmerTimeL > mConfigVo.durationL) {
-            radixPosition = mConfigVo.durationL / mConfigVo.visiableThumbCount
+            radixPosition = mConfigVo.durationL / (mConfigVo.visiableThumbCount)
         }
         return radixPosition
     }

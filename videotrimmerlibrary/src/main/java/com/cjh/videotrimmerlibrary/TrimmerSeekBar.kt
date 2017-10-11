@@ -1,5 +1,6 @@
 package com.cjh.videotrimmerlibrary
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
@@ -18,31 +19,32 @@ class TrimmerSeekBar : View {
 
     var leftPosX = 0f
     var rightPosX = 0f
-    var actionDownPosX = -1f
-    var cursorWidth = 0
-    var offsetValue = 0
-    val perSecondWidth = 0
-    var side = ""
+    private var actionDownPosX = -1f
+    private var cursorWidth = 0
+    private var offsetValue = 0
+    private var minTrimmerTime = 1
+    private val perSecondWidth = 0
+    private var side = ""
 
-    var shadowPaint: Paint? = null
-    var trimmerPaint: Paint? = null
-    var cursorPaint: Paint? = null
+    private var shadowPaint: Paint? = null
+    private var trimmerPaint: Paint? = null
+    private var cursorPaint: Paint? = null
 
-    var leftShadowRect: Rect? = null
-    var rightShadowRect: Rect? = null
-    var trimmerRect: Rect? = null
+    private var leftShadowRect: Rect? = null
+    private var rightShadowRect: Rect? = null
+    private var trimmerRect: Rect? = null
 
-    var leftCursorRect: Rect? = null
-    var rightCursorRect: Rect? = null
+    private var leftCursorRect: Rect? = null
+    private var rightCursorRect: Rect? = null
 
-    var leftCursorBitmap: Bitmap? = null
-    var rightCursorBitmap: Bitmap? = null
+    private var leftCursorBitmap: Bitmap? = null
+    private var rightCursorBitmap: Bitmap? = null
 
     var imeasureWidth = 0
 
-    var updateThumbBySeekBar: EndTouchActionListener? = null
+    private var updateThumbBySeekBar: EndTouchActionListener? = null
 
-    var updatePosListener: UpdatePosListener? = null
+    private var updatePosListener: UpdatePosListener? = null
 
     constructor(context: Context) : this(context, null, 0)
 
@@ -106,13 +108,14 @@ class TrimmerSeekBar : View {
 
     private fun setBitmap(leftRes: Int, rightRes: Int) {
         leftCursorBitmap = (context.resources.getDrawable(leftRes) as BitmapDrawable).bitmap
-        if (rightRes == null || rightRes == 0 || rightRes == -1) {
+        if (rightRes == 0 || rightRes == -1) {
             rightCursorBitmap = leftCursorBitmap
         }
         rightCursorBitmap = (context.resources.getDrawable(rightRes) as BitmapDrawable).bitmap
     }
 
     //    - - - - - - - - - -- - - - - - - - - - - - - - - - -  Touch logic - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event == null) {
             return super.onTouchEvent(event)
@@ -132,21 +135,15 @@ class TrimmerSeekBar : View {
         return isLeft() || isRight()
     }
 
-    private fun whichSide() {
-        when (actionDownPosX) {
-            in (leftPosX - offsetValue)..(leftPosX + cursorWidth + offsetValue) -> side = ActionSideType.LEFT
-            in (rightPosX - cursorWidth - offsetValue)..(rightPosX + offsetValue) -> side = ActionSideType.RIGHT
-            else -> side = ""
-        }
+    private fun whichSide() = when (actionDownPosX) {
+        in (leftPosX - offsetValue)..(leftPosX + cursorWidth + offsetValue) -> side = ActionSideType.LEFT
+        in (rightPosX - cursorWidth - offsetValue)..(rightPosX + offsetValue) -> side = ActionSideType.RIGHT
+        else -> side = ""
     }
 
-    private fun isLeft(): Boolean {
-        return side.equals(ActionSideType.LEFT)
-    }
+    private fun isLeft(): Boolean = side == ActionSideType.LEFT
 
-    private fun isRight(): Boolean {
-        return side.equals(ActionSideType.RIGHT)
-    }
+    private fun isRight(): Boolean = side == ActionSideType.RIGHT
 
     private fun isAvailableMove(event: MotionEvent): Boolean {
         val movingX = event.x

@@ -1,5 +1,6 @@
 package com.cjh.videotrimmerlibrary.controls
 
+import android.annotation.SuppressLint
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE
@@ -9,19 +10,20 @@ import com.cjh.videotrimmerlibrary.callback.EndScrollActionListener
 import com.cjh.videotrimmerlibrary.vo.ThumbVo
 
 /**
- * Created by cjh on 2017/8/30.
- */
+* Created by cjh on 2017/8/30.
+*/
 class RecyclerViewControl private constructor(recyclerView: RecyclerView, updateTrimmerViewsListener: EndScrollActionListener) : GetFrameListener, RecyclerView.OnScrollListener() {
 
-    val mUpdateTrimmerViewsListener: EndScrollActionListener = updateTrimmerViewsListener
+    private val mUpdateTrimmerViewsListener: EndScrollActionListener = updateTrimmerViewsListener
 
-    val mRecyclerView = recyclerView
+    private val mRecyclerView = recyclerView
 
     val mThumbAdapter: ThumbAdapter = mRecyclerView.adapter as ThumbAdapter
 
     var firstItemPosition: Int = 0
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         private var mInstance: RecyclerViewControl? = null
         fun getInstance(recyclerView: RecyclerView, updateTrimmerViewsListener: EndScrollActionListener): RecyclerViewControl {
             if (mInstance == null) {
