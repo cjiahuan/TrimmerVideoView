@@ -22,8 +22,8 @@ class TrimmerSeekBar : View {
     private var actionDownPosX = -1f
     private var cursorWidth = 0
     private var offsetValue = 0
-    private var minTrimmerTime = 1
-    private val perSecondWidth = 0
+    private var minTrimmerThumbCount = Constant.DEFAULT_TRIMMER_MIN_THUMB_COUNT
+    private var perThumbWidth = 0
     private var side = ""
 
     private var shadowPaint: Paint? = null
@@ -80,6 +80,15 @@ class TrimmerSeekBar : View {
         cursorPaint?.style = Paint.Style.FILL_AND_STROKE
     }
 
+    private fun setBitmap(leftRes: Int, rightRes: Int) {
+        leftCursorBitmap = (context.resources.getDrawable(leftRes) as BitmapDrawable).bitmap
+        if (rightRes == 0 || rightRes == -1) {
+            rightCursorBitmap = leftCursorBitmap
+        }
+        rightCursorBitmap = (context.resources.getDrawable(rightRes) as BitmapDrawable).bitmap
+    }
+
+    //    - - - - - - - - - -- - - - - - - - - - - - - - - - -  Measure logic - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
@@ -89,7 +98,7 @@ class TrimmerSeekBar : View {
         var imeasureHeight = 0
         if (widthMode == MeasureSpec.EXACTLY) {
             imeasureWidth = widthSize
-            Log.e("imeasureWidth", imeasureWidth.toString())
+            perThumbWidth = imeasureWidth / MediaHandleManager.getInstance().getConfigVo().visiableThumbCount
         }
         if (heightMode == MeasureSpec.EXACTLY) {
             imeasureHeight = heightSize
@@ -104,14 +113,6 @@ class TrimmerSeekBar : View {
             leftCursorRect = Rect(0, 0, imeasureWidth, imeasureHeight)
             rightCursorRect = Rect(0, 0, imeasureWidth, imeasureHeight)
         }
-    }
-
-    private fun setBitmap(leftRes: Int, rightRes: Int) {
-        leftCursorBitmap = (context.resources.getDrawable(leftRes) as BitmapDrawable).bitmap
-        if (rightRes == 0 || rightRes == -1) {
-            rightCursorBitmap = leftCursorBitmap
-        }
-        rightCursorBitmap = (context.resources.getDrawable(rightRes) as BitmapDrawable).bitmap
     }
 
     //    - - - - - - - - - -- - - - - - - - - - - - - - - - -  Touch logic - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -163,7 +164,7 @@ class TrimmerSeekBar : View {
         if (movingX == leftPosX) {
             return false
         }
-        if (movingX in 0f..(rightPosX - perSecondWidth)) {
+        if (movingX in 0f..(rightPosX - perThumbWidth * minTrimmerThumbCount)) {
             leftPosX = movingX
             postInvalidate()
             return true
@@ -175,7 +176,7 @@ class TrimmerSeekBar : View {
         if (movingX == rightPosX) {
             return false
         }
-        if (movingX in (leftPosX + perSecondWidth)..width.toFloat()) {
+        if (movingX in (leftPosX + perThumbWidth * minTrimmerThumbCount)..width.toFloat()) {
             rightPosX = movingX
             postInvalidate()
             return true
@@ -235,7 +236,9 @@ class TrimmerSeekBar : View {
         this.updatePosListener = updatePosListener
     }
 
-    fun changePaints() {
+    fun postInvalidateByConfig() {
+        perThumbWidth = imeasureWidth / MediaHandleManager.getInstance().getConfigVo().visiableThumbCount
+        minTrimmerThumbCount = MediaHandleManager.getInstance().getConfigVo().minTrimmerThumbCount
         offsetValue = MediaHandleManager.getInstance().getConfigVo().offsetValue
         shadowPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarShaowColor)
         trimmerPaint?.color = Color.parseColor(MediaHandleManager.getInstance().getConfigVo().seekBarStrokeColor)

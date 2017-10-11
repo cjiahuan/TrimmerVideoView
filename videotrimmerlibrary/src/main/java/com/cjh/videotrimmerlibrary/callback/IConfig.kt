@@ -19,5 +19,7 @@ interface IConfig {
 
     fun getTrimmerOffsetValue(): Int
 
-    fun getMinTrimmerTime(): Long
+    fun getMinTrimmerThumbCount(): Int
+
+    fun isShowTrimmerTextViews(): Boolean
 }

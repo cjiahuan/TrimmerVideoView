@@ -1,6 +1,7 @@
 package com.cjh.videotrimmerlibrary.controls
 
 import android.annotation.SuppressLint
+import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.cjh.videotrimmerlibrary.MediaHandleManager
@@ -12,8 +13,8 @@ import com.cjh.videotrimmerlibrary.callback.UpdatePosListener
 import java.text.SimpleDateFormat
 
 /**
-* Created by cjh on 2017/8/31.
-*/
+ * Created by cjh on 2017/8/31.
+ */
 class RegulatorControl private constructor(leftPos: TextView, rightPos: TextView) : EndScrollActionListener, EndTouchActionListener, UpdatePosListener {
 
 
@@ -22,7 +23,8 @@ class RegulatorControl private constructor(leftPos: TextView, rightPos: TextView
     private val rightPosTv = rightPos
 
     override fun updatePos() {
-        updatePosTextViewsMargin()
+        if (MediaHandleManager.getInstance().getConfigVo().isShowPosTextViews)
+            updatePosTextViewsMargin()
     }
 
     private fun updatePosTextViewsMargin() {
@@ -131,7 +133,20 @@ class RegulatorControl private constructor(leftPos: TextView, rightPos: TextView
 
     fun setIConfig(icg: IConfig) {
         MediaHandleManager.getInstance().setIConfig(icg)
-        TrimmerSeekBarControl.getInstance().mTrimmerSeekBar.changePaints()
+        TrimmerSeekBarControl.getInstance().mTrimmerSeekBar.postInvalidateByConfig()
+        updatePosTextViews(icg)
+    }
+
+    private fun updatePosTextViews(icg: IConfig) {
+        if (!icg.isShowTrimmerTextViews()) {
+            leftPosTv.visibility = View.GONE
+            rightPosTv.visibility = View.GONE
+            (leftPosTv.parent as View).visibility = View.GONE
+        } else {
+            leftPosTv.visibility = View.VISIBLE
+            rightPosTv.visibility = View.VISIBLE
+            (leftPosTv.parent as View).visibility = View.VISIBLE
+        }
     }
 
     fun getTrimmerPos(): LongArray = longArrayOf(getThumbPos(TrimmerSeekBarControl.getInstance().leftIndex), getThumbPos(TrimmerSeekBarControl.getInstance().rightIndex))

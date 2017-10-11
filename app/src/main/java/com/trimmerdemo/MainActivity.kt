@@ -7,10 +7,6 @@ import android.view.View
 
 class MainActivity : AppCompatActivity() {
 
-    private val CHOOSE_VIDEO_CODE = 11
-
-    private val REQUEST_PERSION_CODE = 12
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -18,5 +14,13 @@ class MainActivity : AppCompatActivity() {
 
     fun trimmer(view: View) {
         startActivity(Intent(this, TrimmerVideoActivity::class.java))
+    }
+
+    fun trimmerByCustomConfig(view: View) {
+        startActivity(Intent(this, TrimmerVideoByCustomConfigActivity::class.java))
+    }
+
+    fun trimmerByCustomDefaultConfig(view: View) {
+        startActivity(Intent(this, TrimmerVideoByCustomDefaultConfigActivity::class.java))
     }
 }

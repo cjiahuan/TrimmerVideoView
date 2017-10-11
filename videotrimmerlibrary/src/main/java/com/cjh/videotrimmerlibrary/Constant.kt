@@ -3,8 +3,8 @@ package com.cjh.videotrimmerlibrary
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
 
 /**
-* Created by cjh on 2017/8/30.
-*/
+ * Created by cjh on 2017/8/30.
+ */
 class Constant {
 
     companion object {
@@ -23,7 +23,7 @@ class Constant {
         val DEFAULT_SHAOW_COLOR = "#9a000000"
         val DEFAULT_TRIMMER_COLRO = "#ffffff"
         val DEFAULT_TRIMMER_STROKE_WIDTH = 3
-        val DEFAULT_TRIMMER_MINTIME: Long = 3000L
+        val DEFAULT_TRIMMER_MIN_THUMB_COUNT: Int = 1
 
     }
 

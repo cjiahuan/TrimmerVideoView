@@ -5,18 +5,22 @@ import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.VideoView
+import com.bumptech.glide.Glide
 import com.cjh.videotrimmerlibrary.callback.IConfig
 import com.cjh.videotrimmerlibrary.controls.RegulatorControl
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
 import kotlinx.android.synthetic.main.video_trimmer_view.view.*
 
 /**
-* Created by cjh on 2017/8/28.
-*/
+ * Created by cjh on 2017/8/28.
+ */
 class VideoTrimmerView : FrameLayout {
 
     private var mLayoutId = R.layout.video_trimmer_view
@@ -28,7 +32,25 @@ class VideoTrimmerView : FrameLayout {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         LayoutInflater.from(context).inflate(mLayoutId, this)
         getRecyclerView().layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        initialControlIcon()
         RegulatorControl.getInstance(this)
+    }
+
+    private fun initialControlIcon() {
+        rootView.videoViewWraper.setOnClickListener {
+            val visibility: Int = when (rootView.control.visibility) {
+                View.VISIBLE -> View.INVISIBLE
+                View.INVISIBLE -> View.VISIBLE
+                else -> View.INVISIBLE
+            }
+            rootView.control.visibility = visibility
+            if (rootView.videoView.isPlaying) videoView.pause() else videoView.start()
+        }
+        setControlIcon(R.drawable.video_play_icon)
+    }
+
+    fun setControlIcon(resId: Int) {
+        Glide.with(context).load(resId).crossFade().into(rootView.control)
     }
 
     @SuppressLint("WrongViewCast")
@@ -48,7 +70,7 @@ class VideoTrimmerView : FrameLayout {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        RegulatorControl.getInstance()
+        RegulatorControl.getInstance(this)
                 .initialThumbItemWH(arrayOf(MeasureSpec.getSize(widthMeasureSpec) - DensityUtils.dip2px(context, 25f * 2), recyclerView.measuredHeight))
     }
 
@@ -57,7 +79,10 @@ class VideoTrimmerView : FrameLayout {
         return this
     }
 
-    fun setIConfig(icg: IConfig) {
+    fun setIConfig(icg: IConfig?) {
+        if (icg == null) {
+            return
+        }
         RegulatorControl.getInstance().setIConfig(icg)
     }
 

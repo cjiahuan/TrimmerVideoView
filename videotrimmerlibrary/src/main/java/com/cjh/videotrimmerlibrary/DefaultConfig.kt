@@ -5,7 +5,9 @@ import com.cjh.videotrimmerlibrary.callback.IConfig
 /**
 * Created by cjh on 2017/9/28.
 */
-class DefaultConfig : IConfig {
+open class DefaultConfig : IConfig {
+    override fun isShowTrimmerTextViews(): Boolean = true
+
     override fun getTrimmerTime(): Long = Constant.DEFAULT_TRIMMER_TIME
 
     override fun getVisiableThumbCount(): Int = Constant.DEFAULT_THUMB_SHOW_COUNT
@@ -20,5 +22,5 @@ class DefaultConfig : IConfig {
 
     override fun getTrimmerOffsetValue(): Int = Constant.DEFAULT_SEEKBAR_OFFSET_VALUE
 
-    override fun getMinTrimmerTime(): Long = Constant.DEFAULT_TRIMMER_MINTIME
+    override fun getMinTrimmerThumbCount(): Int = Constant.DEFAULT_TRIMMER_MIN_THUMB_COUNT
 }

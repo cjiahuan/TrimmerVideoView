@@ -41,8 +41,9 @@ class VideoViewControl private constructor(videoView: VideoView) {
         mVideoView.setVideoPath(MediaHandleManager.getInstance().getConfigVo().videoPath)
         mVideoView.requestFocus()
         mVideoView.start()
-        mVideoView.seekTo(1)
-        mVideoView.pause()
+        mVideoView.setOnPreparedListener{
+            mVideoView.postDelayed({mVideoView.pause()}, 10)
+        }
     }
 
     fun updatePos(pos: Long) {
@@ -53,5 +54,6 @@ class VideoViewControl private constructor(videoView: VideoView) {
         mInstance = null
         mVideoView.seekTo(0)
         mVideoView.pause()
+        mVideoView.suspend()
     }
 }

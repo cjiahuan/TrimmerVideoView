@@ -25,6 +25,8 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.android.support:appcompat-v7:26.+'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     implementation  project(':videotrimmerlibrary')
 }
 repositories {

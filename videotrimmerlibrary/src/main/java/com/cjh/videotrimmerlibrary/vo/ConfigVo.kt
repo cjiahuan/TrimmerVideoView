@@ -4,8 +4,8 @@ import com.cjh.videotrimmerlibrary.DefaultConfig
 import com.cjh.videotrimmerlibrary.callback.IConfig
 
 /**
-* Created by cjh on 2017/8/31.
-*/
+ * Created by cjh on 2017/8/31.
+ */
 class ConfigVo {
 
     private var iConfig: IConfig = DefaultConfig()
@@ -18,19 +18,26 @@ class ConfigVo {
     var thumbItemWidth = 0
     var thumbItemHeight = 0
 
+    var isShowPosTextViews = iConfig.isShowTrimmerTextViews()
+
     var trimmerTimeL = iConfig.getTrimmerTime()
     var offsetValue = iConfig.getTrimmerOffsetValue()
     var visiableThumbCount = iConfig.getVisiableThumbCount()
     var adapterUpdateCount = iConfig.getThumbListUpdateCount()
+    var minTrimmerThumbCount = iConfig.getMinTrimmerThumbCount()
     var seekBarShaowColor = iConfig.getTrimmerSeekBarShaowColor()
     var seekBarStrokeColor = iConfig.getTrimmerSeekBarTrimmerStrokeColor()
     var seekBarStrokeWidth = iConfig.getTrimmerSeekBarTrimmerStrokeWidth()
 
     fun updateIConfig(icg: IConfig) {
+
+        isShowPosTextViews = icg.isShowTrimmerTextViews()
+
         trimmerTimeL = icg.getTrimmerTime()
         visiableThumbCount = icg.getVisiableThumbCount()
         adapterUpdateCount = icg.getThumbListUpdateCount()
         seekBarShaowColor = icg.getTrimmerSeekBarShaowColor()
+        minTrimmerThumbCount = icg.getMinTrimmerThumbCount()
         seekBarStrokeColor = icg.getTrimmerSeekBarTrimmerStrokeColor()
         seekBarStrokeWidth = icg.getTrimmerSeekBarTrimmerStrokeWidth()
     }

@@ -19,6 +19,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="center" />
 
+        <ImageView
+            android:id="@+id/control"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:padding="47dp"
+            tools:src="@drawable/video_play_icon" />
+
     </FrameLayout>
 
 
@@ -69,10 +77,10 @@
                 android:layout_height="60dp" />
 
             <com.cjh.videotrimmerlibrary.TrimmerSeekBar
-                android:visibility="visible"
                 android:id="@+id/trimmerSeekBar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="visible" />
 
         </RelativeLayout>
 

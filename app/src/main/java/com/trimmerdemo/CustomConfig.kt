@@ -5,8 +5,10 @@ import com.cjh.videotrimmerlibrary.callback.IConfig
 /**
  * Created by cjh on 2017/9/28.
  */
-class MyConfig : IConfig {
-    override fun getMinTrimmerTime(): Long = 1000L
+class CustomConfig : IConfig {
+    override fun isShowTrimmerTextViews(): Boolean = false
+
+    override fun getMinTrimmerThumbCount(): Int = 3
 
     override fun getTrimmerOffsetValue(): Int = 5
 
