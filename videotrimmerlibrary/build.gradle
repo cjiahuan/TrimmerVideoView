@@ -10,7 +10,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "0.01"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -25,8 +25,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.android.support:appcompat-v7:26.+'
-    api 'com.android.support:recyclerview-v7:26.+'
+    api 'com.android.support:appcompat-v7:26.1.0'
+    api 'com.android.support:recyclerview-v7:26.1.0'
     api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     api 'com.github.bumptech.glide:glide:3.7.0'
     api 'io.reactivex.rxjava2:rxjava:2.0.1'

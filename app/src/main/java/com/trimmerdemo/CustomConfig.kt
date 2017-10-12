@@ -18,7 +18,7 @@ class CustomConfig : IConfig {
 
     override fun getThumbListUpdateCount(): Int = 5
 
-    override fun getTrimmerSeekBarShaowColor(): String = "#99000000"
+    override fun getTrimmerSeekBarShaowColor(): String = "#99ff0000"
 
     override fun getTrimmerSeekBarTrimmerStrokeColor(): String = "#ff0000"
 
