@@ -60,6 +60,14 @@ mVideoTrimmerView?.setVideoPath(videoPath!!)?.handle()
 mVideoTrimmerView.getTrimmerPos()[0].toString() + " ::::::: " + mVideoTrimmerView.getTrimmerPos()[1].toString()
 ```
 
+#### release: if activity finish you should call release()
+```
+override fun finish() {
+        super.finish()
+        mVideoTrimmerView.release()
+    }
+```
+
 ### Config
 
 TrimmerVideoView provides a set of default control configuration, you can not set the configuration, of course, you can also set their own desired configuration, only need to integrate IConfig (Interface) or you want to change a part of the configuration, then you can inherit DefaultConfig (class) , It should be noted that this configuration needs to be configured before setVideoPath (), otherwise some of the configuration will not take effect.
