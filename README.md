@@ -1,4 +1,4 @@
-# WeatherView
+# TrimmerVideoView
 
 Visiting WeChat trimmer video view. For now, this is a beta version 0.0.1.
 
