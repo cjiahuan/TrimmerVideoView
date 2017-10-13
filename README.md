@@ -123,7 +123,9 @@ this library is preview version, still have fews bugs, I would fix bugs every da
 
 ### Issue: videoview memory leak
 <a href="https://github.com/JakeWharton/butterknife/issues/585" target="blank">issues</a>
+
 <a href="https://medium.com/@chauyan/confirmed-videoview-leak-on-android-ac502856a6cf" target="blank">Confirmed VideoView Leak on Android</a>
+
 <a href="http://blog.csdn.net/acerhphp/article/details/62889468" target="blank">关于Android VideoView导致的内存泄漏的问题</a>
 
 
