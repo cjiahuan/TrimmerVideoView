@@ -2,6 +2,7 @@ package com.cjh.videotrimmerlibrary
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.cjh.videotrimmerlibrary.callback.IConfig
 import com.cjh.videotrimmerlibrary.controls.RegulatorControl
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
+import com.cjh.videotrimmerlibrary.utils.UriUtils
 import kotlinx.android.synthetic.main.video_trimmer_view.view.*
 
 /**
@@ -74,6 +76,11 @@ class VideoTrimmerView : FrameLayout {
 
     fun setVideoPath(videoPath: String): VideoTrimmerView {
         RegulatorControl.getInstance().setVideoPath(videoPath)
+        return this
+    }
+
+    fun setVideoPath(videoPath: Uri): VideoTrimmerView {
+        RegulatorControl.getInstance().setVideoPath(UriUtils.getPath(context, videoPath)!!)
         return this
     }
 
