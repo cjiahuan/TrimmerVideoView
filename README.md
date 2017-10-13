@@ -119,7 +119,7 @@ class CustomDefaultConfig : DefaultConfig() {
 ```
 
 ### at last 
-this library is preview version, still have fews bugs, I would fix bugs every day.But these bugs can not lead to crash.
+this library is preview version, still have few bugs, I would fix bugs every day.But these bugs can not lead to crash.
 
 ### Issue: videoview memory leak
 <a href="https://github.com/JakeWharton/butterknife/issues/585" target="blank">issues</a>
