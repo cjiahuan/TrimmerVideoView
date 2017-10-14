@@ -26,7 +26,7 @@ allprojects {
 
 ```
 dependencies {
-  compile 'com.github.cjhandroid:TrimmerVideoView:0.0.2'
+  compile 'com.github.cjhandroid:TrimmerVideoView:0.0.3'
 }
 ```
   
