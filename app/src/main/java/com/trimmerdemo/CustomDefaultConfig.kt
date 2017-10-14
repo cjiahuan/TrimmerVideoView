@@ -7,6 +7,10 @@ import com.cjh.videotrimmerlibrary.DefaultConfig
  */
 class CustomDefaultConfig : DefaultConfig() {
 
-    override fun getMinTrimmerThumbCount(): Int = 3
+    override fun getVisiableThumbCount(): Int = 30
+
+    override fun getTrimmerTime(): Long = 20*1000
+
+    override fun getThumbListUpdateCount(): Int = 5
 
 }

@@ -133,7 +133,7 @@ class RegulatorControl private constructor(leftPos: TextView, rightPos: TextView
 
     fun setIConfig(icg: IConfig) {
         MediaHandleManager.getInstance().setIConfig(icg)
-        TrimmerSeekBarControl.getInstance().mTrimmerSeekBar.postInvalidateByConfig()
+        TrimmerSeekBarControl.getInstance().postInvalidateByConfig()
         updatePosTextViews(icg)
     }
 

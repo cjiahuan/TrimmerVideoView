@@ -72,6 +72,12 @@ class TrimmerSeekBarControl private constructor(trimmerSeekBar: TrimmerSeekBar, 
         }
     }
 
+    fun postInvalidateByConfig(){
+        leftIndex = 0
+        rightIndex = MediaHandleManager.getInstance().getConfigVo().visiableThumbCount - 1
+        mTrimmerSeekBar.postInvalidateByConfig()
+    }
+
     fun release() {
         mInstance = null
     }
