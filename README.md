@@ -7,7 +7,7 @@ Visiting WeChat trimmer video view. For now, this is a beta version 0.0.X.
 
 <img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/ezgif.com-video-to-gif.gif" width="30%" />
 
-### v0.0.1
+### v0.0.X
 
 Only to provide the control of the video, but did not achieve its cut, compression and other functions, which will be achieved in the next update one by one.
 
