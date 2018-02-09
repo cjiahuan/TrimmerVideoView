@@ -6,8 +6,8 @@ package com.cjh.videotrimmerlibrary
 class ActionSideType {
 
     companion object {
-        val LEFT = "LEFT"
-        val RIGHT = "RIGHT"
+        const val LEFT = "LEFT"
+        const val RIGHT = "RIGHT"
     }
 
 }

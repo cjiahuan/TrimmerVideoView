@@ -15,7 +15,7 @@ import com.cjh.videotrimmerlibrary.vo.ThumbVo
 */
 class ThumbAdapter : RecyclerView.Adapter<ThumbAdapter.ThumViewHolder>() {
 
-    var mDatas: ArrayList<ThumbVo> = arrayListOf<ThumbVo>()
+    var mDatas: ArrayList<ThumbVo> = arrayListOf()
 
     fun addDatas(datas: ArrayList<ThumbVo>) {
         val positionStart = mDatas.size
@@ -23,9 +23,7 @@ class ThumbAdapter : RecyclerView.Adapter<ThumbAdapter.ThumViewHolder>() {
         notifyItemRangeInserted(positionStart, datas.size)
     }
 
-    override fun getItemCount(): Int {
-        return mDatas.size
-    }
+    override fun getItemCount(): Int = mDatas.size
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ThumViewHolder {
         val rootView = LayoutInflater.from(parent?.context).inflate(R.layout.thumb_item, parent, false)

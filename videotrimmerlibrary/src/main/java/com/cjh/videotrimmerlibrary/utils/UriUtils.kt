@@ -73,10 +73,10 @@ class UriUtils {
                 return getDataColumn(context, contentUri, selection, selectionArgs)
             }// MediaProvider
             // DownloadsProvider
-        } else if ("content".equals(uri.getScheme(), ignoreCase = true)) {
+        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
             return getDataColumn(context, uri, null, null)
-        } else if ("file".equals(uri.getScheme(), ignoreCase = true)) {
-            return uri.getPath()
+        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+            return uri.path
         }// File
         // MediaStore (and general)
 
@@ -120,25 +120,22 @@ class UriUtils {
      * @param uri The Uri to check.
      * @return Whether the Uri authority is ExternalStorageProvider.
      */
-    fun isExternalStorageDocument(uri: Uri): Boolean {
-        return "com.android.externalstorage.documents" == uri.getAuthority()
-    }
+    fun isExternalStorageDocument(uri: Uri): Boolean =
+            "com.android.externalstorage.documents" == uri.authority
 
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is DownloadsProvider.
      */
-    fun isDownloadsDocument(uri: Uri): Boolean {
-        return "com.android.providers.downloads.documents" == uri.getAuthority()
-    }
+    fun isDownloadsDocument(uri: Uri): Boolean =
+            "com.android.providers.downloads.documents" == uri.authority
 
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is MediaProvider.
      */
-    fun isMediaDocument(uri: Uri): Boolean {
-        return "com.android.providers.media.documents" == uri.getAuthority()
-    }
+    fun isMediaDocument(uri: Uri): Boolean =
+            "com.android.providers.media.documents" == uri.authority
 
     }
 

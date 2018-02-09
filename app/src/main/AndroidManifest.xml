@@ -24,15 +24,15 @@
 
         <activity
             android:name=".TrimmerVideoActivity"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
 
         <activity
             android:name=".TrimmerVideoByCustomConfigActivity"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
 
         <activity
             android:name=".TrimmerVideoByCustomDefaultConfigActivity"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
 
     </application>
 
