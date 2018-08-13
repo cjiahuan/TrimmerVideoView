@@ -12,6 +12,8 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.VideoView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.transition.DrawableCrossFadeTransition
 import com.cjh.videotrimmerlibrary.callback.IConfig
 import com.cjh.videotrimmerlibrary.controls.RegulatorControl
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
@@ -19,7 +21,7 @@ import com.cjh.videotrimmerlibrary.utils.UriUtils
 import kotlinx.android.synthetic.main.video_trimmer_view.view.*
 
 /**
- * Created by cjh on 2017/8/28.
+ * Created by cjh on 2017/8/28
  */
 class VideoTrimmerView : FrameLayout {
 
@@ -50,7 +52,7 @@ class VideoTrimmerView : FrameLayout {
     }
 
     fun setControlIcon(resId: Int) {
-        Glide.with(context).load(resId).crossFade().into(rootView.control)
+        Glide.with(context).load(resId).transition(DrawableTransitionOptions().crossFade()).into(rootView.control)
     }
 
     @SuppressLint("WrongViewCast")

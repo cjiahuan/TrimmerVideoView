@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.cjh.videotrimmerlibrary.vo.ThumbVo
 
 
 /**
-* Created by cjh on 2017/8/30.
-*/
+ * Created by cjh on 2017/8/30
+ */
 class ThumbAdapter : RecyclerView.Adapter<ThumbAdapter.ThumViewHolder>() {
 
     var mDatas: ArrayList<ThumbVo> = arrayListOf()
@@ -25,20 +27,20 @@ class ThumbAdapter : RecyclerView.Adapter<ThumbAdapter.ThumViewHolder>() {
 
     override fun getItemCount(): Int = mDatas.size
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ThumViewHolder {
-        val rootView = LayoutInflater.from(parent?.context).inflate(R.layout.thumb_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThumViewHolder {
+        val rootView = LayoutInflater.from(parent.context).inflate(R.layout.thumb_item, parent, false)
         rootView.findViewById<ImageView>(R.id.mImageView).layoutParams.width = MediaHandleManager.getInstance().getConfigVo().thumbItemWidth
         rootView.findViewById<ImageView>(R.id.mImageView).layoutParams.height = MediaHandleManager.getInstance().getConfigVo().thumbItemHeight
         return ThumViewHolder(rootView)
     }
 
-    override fun onBindViewHolder(holder: ThumViewHolder?, position: Int) {
-            holder?.render(mDatas[position].bitmapByte)
+    override fun onBindViewHolder(holder: ThumViewHolder, position: Int) {
+        holder.render(mDatas[position].bitmapByte)
     }
 
     inner class ThumViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         fun render(bitmapByte: ByteArray) {
-            Glide.with(itemView.context).load(bitmapByte).centerCrop().crossFade().into(itemView.findViewById<ImageView>(R.id.mImageView))
+            Glide.with(itemView.context).load(bitmapByte).apply(RequestOptions.centerCropTransform()).transition(DrawableTransitionOptions().crossFade()).into(itemView.findViewById<ImageView>(R.id.mImageView))
         }
     }
 }
