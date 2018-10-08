@@ -16,7 +16,7 @@ class Constant {
         const val VERTICAL = "90"
         const val HORIZONTAL = "0"
 
-        const val DEFAULT_ADAPTER_UPDATE_COUNT = 3
+        const val DEFAULT_ADAPTER_UPDATE_COUNT = 1
 
         const val DEFAULT_SEEKBAR_OFFSET_VALUE = 5
 
