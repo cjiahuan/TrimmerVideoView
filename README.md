@@ -26,7 +26,7 @@ allprojects {
 
 ```
 dependencies {
-   implementation 'com.github.cjiahuan:TrimmerVideoView:0.0.4'
+   implementation 'com.github.cjiahuan:TrimmerVideoView:0.0.5'
 }
 ```
   
