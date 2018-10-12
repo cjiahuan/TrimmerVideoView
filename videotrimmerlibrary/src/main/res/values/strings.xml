@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">videotrimmerlibrary</string>
+    <string name="shipped_ffmpeg_version">n2.4.2</string>
 </resources>

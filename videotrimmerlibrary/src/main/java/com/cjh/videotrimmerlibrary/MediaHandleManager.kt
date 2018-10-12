@@ -72,6 +72,10 @@ internal class MediaHandleManager {
     private fun getRightWH(): Array<Int> {
         var width = mRetr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH).toInt()
         var height = mRetr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT).toInt()
+        val bitmap = mRetr.getFrameAtTime((5 * 1000 + 1L), MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+        if(bitmap!= null && bitmap.width >0 && bitmap.height > 0){
+            return arrayOf(bitmap.width, bitmap.height)
+        }
         val min = Math.min(width, height)
         val max = Math.max(width, height)
         val orientation = mRetr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION)

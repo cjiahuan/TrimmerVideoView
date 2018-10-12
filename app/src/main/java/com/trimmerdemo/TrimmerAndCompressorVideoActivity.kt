@@ -10,11 +10,11 @@ import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.View
-import com.github.hiteshsondhi88.libffmpeg.FileUtils
-import com.github.hiteshsondhi88.libffmpeg.utils.TrimVideoUtil
-import com.github.hiteshsondhi88.libffmpeg.videocompress.CompressListener
-import com.github.hiteshsondhi88.libffmpeg.videocompress.Compressor
-import com.github.hiteshsondhi88.libffmpeg.videocompress.CompressorHandler.getCommand
+import com.cjh.ffmpeg.FileUtils
+import com.cjh.ffmpeg.utils.TrimVideoUtil
+import com.cjh.ffmpeg.videocompress.CompressListener
+import com.cjh.ffmpeg.videocompress.Compressor
+import com.cjh.ffmpeg.videocompress.CompressorHandler.getCommand
 import kotlinx.android.synthetic.main.activity_trimmer_video.*
 import java.io.File
 
