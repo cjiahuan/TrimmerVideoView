@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.cjh.ffmpeg.ExecuteBinaryResponseHandler;
 import com.cjh.ffmpeg.FFmpeg;
 import com.cjh.ffmpeg.LoadBinaryResponseHandler;
+import com.cjh.ffmpeg.Log;
 import com.cjh.ffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.cjh.ffmpeg.exceptions.FFmpegNotSupportedException;
 
@@ -26,12 +27,12 @@ public class Compressor {
         loadBinary(new InitListener() {
             @Override
             public void onLoadSuccess() {
-
+                Log.e("Compressor loadBinary success");
             }
 
             @Override
             public void onLoadFail(String reason) {
-
+                Log.e("Compressor loadBinary fail");
             }
         });
     }

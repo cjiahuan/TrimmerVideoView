@@ -15,6 +15,7 @@ import com.cjh.ffmpeg.utils.TrimVideoUtil
 import com.cjh.ffmpeg.videocompress.CompressListener
 import com.cjh.ffmpeg.videocompress.Compressor
 import com.cjh.ffmpeg.videocompress.CompressorHandler.getCommand
+import com.cjh.ffmpeg.videocompress.GetCommandListener
 import kotlinx.android.synthetic.main.activity_trimmer_video.*
 import java.io.File
 
@@ -30,7 +31,6 @@ class TrimmerAndCompressorVideoActivity : TrimmerVideoActivity() {
 
     private var compressor: Compressor? = null
 
-    @SuppressLint("SetTextI18n")
     override fun compressor(view: View) {
         VIDEOCOMPRESSORDIR = Environment.getExternalStorageDirectory().absolutePath + "/compressor"
 
@@ -68,23 +68,24 @@ class TrimmerAndCompressorVideoActivity : TrimmerVideoActivity() {
         if (compressor == null) {
             compressor = Compressor(this)
         }
-        val cmd: String
-        try {
-            cmd = getCommand(configVo.videoPath, MOUTPUTVIDEOPATH, start, editTime, configVo.width, configVo.height)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return
-        }
+
+        val cmd = getCommand(configVo.videoPath, MOUTPUTVIDEOPATH, start, editTime, configVo.width, configVo.height, object : GetCommandListener{
+            override fun checkSourceSuccess(sourceVideoPath: String?, cmd: String?): String {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun errorSourcePath(sourceVideoPath: String?, reason: String?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        })
         compressor!!.execCommand(cmd, object : CompressListener {
             override fun onExecSuccess(message: String) {
                 LogUtils.e(FileUtils.getFileSize(MOUTPUTVIDEOPATH))
-
                 val intent = Intent()
                 intent.action = Intent.ACTION_MEDIA_SCANNER_SCAN_FILE//扫描单个文件
-                intent.data = Uri.fromFile(File(MOUTPUTVIDEOPATH));//给图片的绝对路径
+                intent.data = Uri.fromFile(File(MOUTPUTVIDEOPATH))//给图片的绝对路径
                 sendBroadcast(intent)
-
-//                finish()
             }
 
             override fun onExecFail(reason: String) {

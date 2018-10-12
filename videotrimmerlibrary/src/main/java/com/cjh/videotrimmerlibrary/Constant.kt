@@ -25,6 +25,8 @@ class Constant {
         const val DEFAULT_TRIMMER_STROKE_WIDTH = 3
         const val DEFAULT_TRIMMER_MIN_THUMB_COUNT: Int = 1
 
+        const val VIDEOCOMPRESSORDIR = "/compressor"
+
     }
 
 }

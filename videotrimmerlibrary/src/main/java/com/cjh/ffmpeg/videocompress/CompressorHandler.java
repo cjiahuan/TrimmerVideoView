@@ -6,13 +6,54 @@ import com.cjh.ffmpeg.Log;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 public class CompressorHandler {
 
+    public static void getCommand(final String inputVideoPath, final String outputVideoPath, final String start, final String trimmer, final int width, final int height, final GetCommandListener getCommandListener) {
+        if (getCommandListener != null) {
+            if (inputVideoPath.contains(" ")) {
+                Observable.just(inputVideoPath)
+                        .subscribeOn(Schedulers.io())
+                        .map(new Function<String, String>() {
+                            @Override
+                            public String apply(String s) {
 
-    public static String getCommand(String inputVideoPath, String outputVideoPath,String start , String trimmer,int width, int height)throws IllegalArgumentException  {
-        if(inputVideoPath.contains(" ")){
-            throw new IllegalArgumentException("inputVideoPath can not have space characters");
+                                return null;
+                            }
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<String>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(String source) {
+                                getCommandListener.checkSourceSuccess(source, getCommand(source, outputVideoPath, start, trimmer, width, height));
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                getCommandListener.errorSourcePath(inputVideoPath, e.getMessage());
+                            }
+
+                            @Override
+                            public void onComplete() {
+                            }
+                        });
+            } else {
+                getCommandListener.checkSourceSuccess(inputVideoPath, getCommand(inputVideoPath, outputVideoPath, start, trimmer, width, height));
+            }
         }
+    }
+
+    private static String getCommand(String inputVideoPath, String outputVideoPath, String start, String trimmer, int width, int height) {
         clearTempFile(outputVideoPath);
         int[] endWH = getRatioWH(width, height);
         String cmd = "-y -ss " + start + " -t " + trimmer + " -i " + inputVideoPath + " -strict -2 -vcodec libx264 -preset ultrafast " +
@@ -32,7 +73,7 @@ public class CompressorHandler {
             double ratioH = height / 1080d;
             double endRatio = Math.max(ratioW, ratioH);
             Log.e("ratioW " + ratioW + "   ratioH " + ratioH + "   endRatio " + endRatio);
-            return new int[]{(int) Math.ceil(width / endRatio), (int)Math.ceil(height / endRatio)};
+            return new int[]{(int) Math.ceil(width / endRatio), (int) Math.ceil(height / endRatio)};
         } else return new int[]{width, height};
     }
 
