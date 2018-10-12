@@ -33,6 +33,7 @@
         <activity
             android:name=".TrimmerVideoByCustomDefaultConfigActivity"
             android:launchMode="singleTop" />
+        <activity android:name=".TrimmerAndCompressorVideoActivity" />
 
     </application>
 

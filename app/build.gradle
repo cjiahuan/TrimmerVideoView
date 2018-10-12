@@ -28,6 +28,7 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     implementation project(':videotrimmerlibrary')
+    implementation project(':FFmpegAndroid')
 }
 repositories {
     mavenCentral()

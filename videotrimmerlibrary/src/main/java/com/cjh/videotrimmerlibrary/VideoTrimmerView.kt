@@ -18,6 +18,7 @@ import com.cjh.videotrimmerlibrary.callback.IConfig
 import com.cjh.videotrimmerlibrary.controls.RegulatorControl
 import com.cjh.videotrimmerlibrary.utils.DensityUtils
 import com.cjh.videotrimmerlibrary.utils.UriUtils
+import com.cjh.videotrimmerlibrary.vo.ConfigVo
 import kotlinx.android.synthetic.main.video_trimmer_view.view.*
 
 /**
@@ -80,6 +81,8 @@ class VideoTrimmerView : FrameLayout {
         RegulatorControl.getInstance().setVideoPath(videoPath)
         return this
     }
+
+    fun getConfigVo(): ConfigVo = RegulatorControl.getInstance().getConfigVo()
 
     fun setVideoPath(videoPath: Uri): VideoTrimmerView {
         RegulatorControl.getInstance().setVideoPath(UriUtils.getPath(context, videoPath)!!)

@@ -29,4 +29,12 @@
         android:text="trimmerByCustomDefaultConfig"
         android:textAllCaps="false" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:onClick="compressorAndTrim"
+        android:text="CompressorAndTrim video"
+        android:textAllCaps="false" />
+
 </LinearLayout>

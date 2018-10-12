@@ -64,7 +64,12 @@ open class TrimmerVideoActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    fun trimmer(view: View) {
+    open fun compressor(view: View) {
+        trimmerPos.text = mVideoTrimmerView.getTrimmerPos()[0].toString() + " ::::::: " + mVideoTrimmerView.getTrimmerPos()[1].toString()
+    }
+
+    @SuppressLint("SetTextI18n")
+    open fun compressorWidthProgress(view: View) {
         trimmerPos.text = mVideoTrimmerView.getTrimmerPos()[0].toString() + " ::::::: " + mVideoTrimmerView.getTrimmerPos()[1].toString()
     }
 

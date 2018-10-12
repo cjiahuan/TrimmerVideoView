@@ -10,6 +10,7 @@ import com.cjh.videotrimmerlibrary.callback.EndTouchActionListener
 import com.cjh.videotrimmerlibrary.callback.EndScrollActionListener
 import com.cjh.videotrimmerlibrary.callback.IConfig
 import com.cjh.videotrimmerlibrary.callback.UpdatePosListener
+import com.cjh.videotrimmerlibrary.vo.ConfigVo
 import java.text.SimpleDateFormat
 
 /**
@@ -103,6 +104,8 @@ class RegulatorControl private constructor(leftPos: TextView, rightPos: TextView
         MediaHandleManager.getInstance().setVideoPath(videoPath)
         return this
     }
+
+    fun getConfigVo(): ConfigVo = MediaHandleManager.getInstance().getConfigVo()
 
     fun initialThumbItemWH(wh: Array<Int>): RegulatorControl {
         MediaHandleManager.getInstance().setThumbItemWH(wh)

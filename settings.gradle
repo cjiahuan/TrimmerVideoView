@@ -1,1 +1,1 @@
-include ':app', ':videotrimmerlibrary'
+include ':app', ':videotrimmerlibrary', ':FFmpegAndroid'
