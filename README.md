@@ -7,7 +7,75 @@ Visiting WeChat trimmer video view. For now, this is a beta version 0.0.X.
 
 <img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/ezgif.com-video-to-gif.gif" width="30%" />
 
-### v0.0.X
+### v0.1.0
+provide TrimmerVideoView and compressor video functions
+```
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+```
+
+```
+dependencies {
+   implementation 'com.github.cjiahuan:TrimmerVideoView:0.1.0'
+}
+```
+you can use TrimmerVideoView like v0.0.5, and compressor video :
+```
+ @SuppressLint("SetTextI18n")
+    private fun precompressor() {
+        val trimmerPosArray = mVideoTrimmerView.getTrimmerPos()
+        trimmerPos.text = trimmerPosArray[0].toString() + " ::::::: " + trimmerPosArray[1].toString()
+        compressor(trimmerPosArray[0], trimmerPosArray[1])
+    }
+
+    private fun compressor(start: Long, endPos: Long) {
+        MOUTPUTVIDEOPATH = VIDEOCOMPRESSORDIR + "/" + System.currentTimeMillis() + ".mp4"
+        val configVo = mVideoTrimmerView.getConfigVo()
+
+        val lastTime = System.currentTimeMillis()
+
+        CompressorHandler.excute(true,
+                this,
+                configVo.videoPath,
+                MOUTPUTVIDEOPATH,
+                start,
+                endPos,
+                configVo.width,
+                configVo.height,
+                object : CompressListener() {
+                    @SuppressLint("SetTextI18n")
+                    override fun onExecSuccess(message: String?) {
+                        LogUtils.e("MOUTPUTVIDEOPATH -> $MOUTPUTVIDEOPATH ||| size -> ${FileUtils.getFileSize(MOUTPUTVIDEOPATH)}")
+                        msg.text = "${msg.text} + \n\n" + "MOUTPUTVIDEOPATH -> $MOUTPUTVIDEOPATH ||| size -> ${FileUtils.getFileSize(MOUTPUTVIDEOPATH)}"
+                    }
+
+                    override fun onExecFail(reason: String?) {
+                    }
+
+                    override fun onExecProgress(cmd: String, orginalMessage: String, progress: Int) {
+                        msg.visibility = View.VISIBLE
+                        LogUtils.e("onExecProgress -> $progress")
+                        val sb = StringBuilder("cmd -> $cmd")
+                                .append("\n\n")
+                                .append("progress -> $progress")
+                                .append("\n\n")
+                                .append(orginalMessage)
+                                .append("\n\n")
+                                .append("time -> ${(System.currentTimeMillis() - lastTime) / 1000f}")
+                                .toString()
+                        msg.text = sb
+                    }
+
+                })
+
+    }
+```
+
+### v0.0.5
 
 Only to provide the control of the video, but did not achieve its cut, compression and other functions, which will be achieved in the next update one by one.
 
@@ -26,7 +94,7 @@ allprojects {
 
 ```
 dependencies {
-   implementation 'com.github.cjiahuan:TrimmerVideoView:0.1.0'
+	        implementation 'com.github.cjiahuan:TrimmerVideoView:0.0.5'
 }
 ```
   
