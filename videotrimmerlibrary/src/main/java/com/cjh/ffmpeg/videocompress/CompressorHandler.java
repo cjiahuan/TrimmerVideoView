@@ -1,7 +1,11 @@
 package com.cjh.ffmpeg.videocompress;
 
+import android.app.Activity;
+import android.text.TextUtils;
+
 import com.cjh.ffmpeg.FileUtils;
 import com.cjh.ffmpeg.Log;
+import com.cjh.ffmpeg.utils.TrimVideoUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,15 +19,28 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CompressorHandler {
 
-    public static void getCommand(final String inputVideoPath, final String outputVideoPath, final String start, final String trimmer, final int width, final int height, final GetCommandListener getCommandListener) {
+    private static void getCommand(final Activity activity,
+                                   final String inputVideoPath,
+                                   final String outputVideoPath,
+                                   final long startPos,
+                                   final long endPos,
+                                   final int width,
+                                   final int height,
+                                   final GetCommandListener getCommandListener) {
         if (getCommandListener != null) {
+            final String start = TrimVideoUtil.convertSecondsToTime(startPos / 1000);
+            final String editTime = TrimVideoUtil.convertSecondsToTime((long) Math.ceil((endPos - startPos) / 1000));
             if (inputVideoPath.contains(" ")) {
                 Observable.just(inputVideoPath)
                         .subscribeOn(Schedulers.io())
                         .map(new Function<String, String>() {
                             @Override
                             public String apply(String s) {
-
+                                String newInputVideoPath = "/data/data/" + activity.getPackageName() + "/" + System.currentTimeMillis() + ".mp4";
+                                boolean isSuccess = FileUtils.copyFile(inputVideoPath, newInputVideoPath);
+                                if (isSuccess) {
+                                    return newInputVideoPath;
+                                }
                                 return null;
                             }
                         })
@@ -35,7 +52,11 @@ public class CompressorHandler {
 
                             @Override
                             public void onNext(String source) {
-                                getCommandListener.checkSourceSuccess(source, getCommand(source, outputVideoPath, start, trimmer, width, height));
+                                if (TextUtils.isEmpty(source)) {
+                                    getCommandListener.errorSourcePath(inputVideoPath, "inputVideoPath have space character,and copyFile logic fail");
+                                } else {
+                                    getCommandListener.checkSourceSuccess(inputVideoPath, getCommand(source, outputVideoPath, start, editTime, width, height));
+                                }
                             }
 
                             @Override
@@ -48,9 +69,86 @@ public class CompressorHandler {
                             }
                         });
             } else {
-                getCommandListener.checkSourceSuccess(inputVideoPath, getCommand(inputVideoPath, outputVideoPath, start, trimmer, width, height));
+                getCommandListener.checkSourceSuccess(inputVideoPath, getCommand(inputVideoPath, outputVideoPath, start, editTime, width, height));
             }
+        } else {
+            Log.e("getCommandListener can not be null!!! ");
         }
+    }
+
+    public static void excute(boolean isOpenDebugLog,
+                              final Activity activity,
+                              final String inputVideoPath,
+                              final String outputVideoPath,
+                              final long startPos,
+                              final long endPos,
+                              final int width,
+                              final int height,
+                              final CompressListener compressListener) throws IllegalArgumentException {
+        Log.setDEBUG(isOpenDebugLog);
+        if (compressListener == null) {
+            throw new IllegalArgumentException("compressListener can not be null");
+        }
+
+        if (activity == null) {
+            compressListener.onExecFail("activity can not be null");
+            return;
+        }
+
+        if (TextUtils.isEmpty(inputVideoPath)) {
+            compressListener.onExecFail("inputVideoPath can not be empty");
+            return;
+        }
+
+        if (TextUtils.isEmpty(outputVideoPath)) {
+            compressListener.onExecFail("outputVideoPath can not be empty");
+            return;
+        }
+
+        if (startPos < 0) {
+            compressListener.onExecFail("editTime is wrong: startPos = " + startPos + ", must >= 0");
+            return;
+        }
+
+        if (startPos >= endPos) {
+            compressListener.onExecFail("editTime is wrong: startPos = " + startPos + ", endPos = " + endPos + ", endPos must > startPos");
+            return;
+        }
+
+        if (height <= 0) {
+            compressListener.onExecFail("height is wrong: height = " + height + ", must > 0");
+            return;
+        }
+
+        if (width <= 0) {
+            compressListener.onExecFail("width is wrong: width = " + width + ", must > 0");
+            return;
+        }
+
+        getCommand(activity, inputVideoPath, outputVideoPath, startPos, endPos, width, height, new GetCommandListener() {
+            @Override
+            public void checkSourceSuccess(String sourceVideoPath, final String cmd) {
+                final Compressor compressor = Compressor.getInstance(activity);
+                compressor.init(new InitListener() {
+                    @Override
+                    public void onLoadSuccess() {
+                        Log.e("compressor loadbinary success");
+                        compressor.execCommand(cmd, startPos, endPos - startPos, compressListener);
+                    }
+
+                    @Override
+                    public void onLoadFail(String reason) {
+                        Log.e("compressor loadbinary fail");
+                    }
+                });
+
+            }
+
+            @Override
+            public void errorSourcePath(String sourceVideoPath, String reason) {
+                compressListener.onExecFail("sourceVideoPath = " + sourceVideoPath + " -> " + reason);
+            }
+        });
     }
 
     private static String getCommand(String inputVideoPath, String outputVideoPath, String start, String trimmer, int width, int height) {
@@ -77,7 +175,7 @@ public class CompressorHandler {
         } else return new int[]{width, height};
     }
 
-    public static int getProgress(String message, double taskLength, long start, int preProgress) {
+    public static int getProgress(String message, float taskLength, long start) {
         //   frame=  272 fps= 17 q=32.0 size=    1526kB time=00:00:09.56 bitrate=1306.7kbits/s speed=0.594x
         if (message.contains("frame=") && message.contains("speed=")) {
             Pattern p = Pattern.compile("00:\\d{2}:\\d{2}");
@@ -90,7 +188,7 @@ public class CompressorHandler {
                 return (int) Math.ceil(progress);
             }
         }
-        return preProgress;
+        return -1;
     }
 
 }

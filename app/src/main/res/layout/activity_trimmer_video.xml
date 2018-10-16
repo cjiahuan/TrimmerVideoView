@@ -26,9 +26,26 @@
 
     </LinearLayout>
 
-    <com.cjh.videotrimmerlibrary.VideoTrimmerView
-        android:id="@+id/mVideoTrimmerView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <com.cjh.videotrimmerlibrary.VideoTrimmerView
+            android:id="@+id/mVideoTrimmerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <TextView
+            android:visibility="gone"
+            android:background="@android:color/white"
+            android:id="@+id/msg"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_gravity="end|center"
+            android:gravity="center" />
+
+    </FrameLayout>
+
 
 </LinearLayout>

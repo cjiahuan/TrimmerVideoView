@@ -6,7 +6,7 @@ public class Log {
     private static String TAG = FFmpeg.class.getSimpleName();
     private static boolean DEBUG = true;
 
-    static void setDEBUG(boolean DEBUG) {
+    public static void setDEBUG(boolean DEBUG) {
         Log.DEBUG = DEBUG;
     }
 
