@@ -70,7 +70,6 @@ class TrimmerAndCompressorVideoActivity : TrimmerVideoActivity() {
                     @SuppressLint("SetTextI18n")
                     override fun onExecSuccess(message: String?) {
                         LogUtils.e("MOUTPUTVIDEOPATH -> $MOUTPUTVIDEOPATH ||| size -> ${FileUtils.getFileSize(MOUTPUTVIDEOPATH)}")
-
                         msg.text = "${msg.text} + \n\n" + "MOUTPUTVIDEOPATH -> $MOUTPUTVIDEOPATH ||| size -> ${FileUtils.getFileSize(MOUTPUTVIDEOPATH)}"
                     }
 

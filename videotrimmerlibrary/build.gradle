@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 28
+        targetSdkVersion 27
         versionCode 1
         versionName "0.1.0"
 
@@ -35,10 +35,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:27.1.0'
     compile 'com.android.support:recyclerview-v7:27.1.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.github.bumptech.glide:glide:4.7.1'
-    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.2.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.1.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
