@@ -5,6 +5,8 @@ Visiting WeChat trimmer video view. For now, this is a beta version 0.1.X.
 
 ### ScreenShots
 
+<img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/just_show_trimmerview.gif" width="30%" />
+
 <img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/ezgif.com-video-to-gif.gif" width="30%" />
 
 ### v0.1.0
