@@ -7,9 +7,9 @@ Visiting WeChat trimmer video view. For now, this is a beta version 0.1.X.
 
 <div>
 
-<img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/just_show_trimmerview.gif" width="25%" float="left"/>
+<img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/just_show_trimmerview.gif" width="22%" float="left"/>
 
-<img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/ezgif.com-video-to-gif.gif" width="25%" float="left"/>
+<img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/ezgif.com-video-to-gif.gif" width="22%" float="left"/>
 
 </div>
 
