@@ -1,16 +1,19 @@
 # TrimmerVideoView
 
-Visiting WeChat trimmer video view. For now, this is a beta version 0.1.X.
+Visiting WeChat trimmer & compressor video view. For now, this is a beta version 0.1.0.
 
 
 ### ScreenShots
 
 <div>
-
-<img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/just_show_trimmerview.gif" width="22%" float="left"/>
-
+<div  float="left">
+Trimmer Video View
+<img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/just_show_trimmerview.gif" width="22%"/>
+</div>
+<div  float="left">
+compressor Video
 <img src="https://github.com/cjhandroid/TrimmerVideoView/blob/master/ezgif.com-video-to-gif.gif" width="22%" float="left"/>
-
+</div>
 </div>
 
 ### v0.1.0
