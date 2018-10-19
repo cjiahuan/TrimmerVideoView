@@ -2,9 +2,9 @@
 
 Visiting WeChat trimmer & compressor video view. For now, this is a beta version 0.1.0.
 
-v0.0.5 only provide TrimmerVideoView.
+<strong>v0.0.5</strong> only provide TrimmerVideoView.
 
-v0.1.0  if you also wan use compressor feature.
+<strong>v0.1.0</strong>  add compressor feature.
 
 ### ScreenShots
 
@@ -16,10 +16,6 @@ v0.1.0  if you also wan use compressor feature.
 </div>
 
 ### How to use TrimmerVideoView
-
-#### v0.0.5
-
-Only to provide the control of the video, but did not achieve its cut, compression and other functions, which will be achieved in the next update one by one.
 
 #### gradle
 
@@ -34,11 +30,28 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.cjiahuan:TrimmerVideoView:0.0.5'
+   implementation 'com.github.cjiahuan:TrimmerVideoView:0.0.5'
 }
 ```
 
-### details
+<strong>or</strong>
+
+```
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+```
+
+```
+dependencies {
+   implementation 'com.github.cjiahuan:TrimmerVideoView:0.1.0'
+}
+```
+
+### details for TrimmerVideoView
 
 #### XML
  ```
@@ -134,29 +147,7 @@ class CustomDefaultConfig : DefaultConfig() {
 }
 ```
 
-### v0.1.0
-
-provide compressor feature for TrimmerVideoView
-
-#### gradle
-
-
-```
-allprojects {
-  repositories {
-    ...
-    maven { url 'https://jitpack.io' }
-  }
-}
-```
-
-```
-dependencies {
-   implementation 'com.github.cjiahuan:TrimmerVideoView:0.1.0'
-}
-```
-
-### details
+### details for Compressor Feature
 
 ```
  @SuppressLint("SetTextI18n")
@@ -208,9 +199,6 @@ dependencies {
 
     }
 ```
-
-
-
 ### at last 
 this library is preview version, still have few bugs, I would fix bugs every day.But these bugs can not lead to crash.
 
